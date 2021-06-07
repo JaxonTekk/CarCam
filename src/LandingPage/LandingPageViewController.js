@@ -6,19 +6,16 @@ import Footer from '../Footer'
 
 export default function LandingPageViewController() {
   return (
-      <SafeAreaView>
+      <View style={styles.container}>
           <Header/>
           <Footer/>
-      </SafeAreaView>
+      </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#F8F8F8',
   },
   rectangle: {
     height: 128,

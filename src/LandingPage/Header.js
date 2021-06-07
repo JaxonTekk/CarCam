@@ -1,39 +1,49 @@
 import React from 'react'
-import {StyleSheet, View, Text} from 'react-native'
+import {StyleSheet, View, Text, Dimensions} from 'react-native'
 
 export default function Header() {
     let t = new Date().getHours()%12 + ":" + (new Date().getMinutes()/10<1?"0"+new Date().getMinutes():new Date().getMinutes()) + " " + (new Date().getHours()<12?"AM":"PM");
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.welcome}>Welcome</Text>
-            <Text style={styles.time}>{t}</Text> 
+        <View styles={styles.container}>
+            <View style={styles.rectangle}>
+                <Text style={styles.largeText}>Welcome</Text>
+                <Text style={styles.smallText}>{d}</Text>
+            </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        height: 100, 
-        backgroundColor: '#fff',
-        padding: 2, 
-        borderBottomLeftRadius: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    rectangle: {
+        backgroundColor: 'white',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
         borderBottomRightRadius: 30,
+        borderBottomLeftRadius: 30,
+        shadowColor: "#000",
         shadowOffset: {
             width: 0,
             height: 2,
         },
         shadowOpacity: 0.5,
         shadowRadius: 3.84,
+        elevation: 5,
     },
-
-    welcome: {
+    largeText: {
+        marginTop: Dimensions.get('window').height/19,
+        marginLeft: Dimensions.get('window').width/25,
+        fontSize: 26
+    },
+    smallText: {
         marginTop: 5,
-        fontSize: 25
-    },
-
-    time: {
-        fontSize: 30,
-        color: '#7c587f'
+        marginLeft: Dimensions.get('window').width/25,
+        fontSize: 40,
+        marginBottom: 10,
+        color: "#4c3f77"
     }
 });

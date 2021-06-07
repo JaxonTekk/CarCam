@@ -5,17 +5,12 @@ import LandingPageViewController from './src/LandingPage/LandingPageViewControll
 
 export default function App() {
   return (
-    <SafeAreaView>
       <LandingPageViewController/>
-    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });

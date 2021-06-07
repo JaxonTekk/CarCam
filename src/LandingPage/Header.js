@@ -1,18 +1,19 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, SafeAreaView } from 'react-native';
+import React from 'react'
+import {StyleSheet, View, Text} from 'react-native'
 
 export default function Header() {
-  return (
-      <SafeAreaView />
-  );
+    let d = new Date().getHours()%12 + ":" + (new Date().getMinutes()/10===0?"0"+new Date().getMinutes():new Date().getMinutes()) + " " + (new Date().getHours()<12?"AM":"PM");
+
+    return (
+        <View styles={styles.container}>
+            <View styles={styles.border}>
+                <Text>Welcome!</Text>
+                <Text>{d}</Text>
+            </View>
+            
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-  rectangle: {
-    height: 128,
-    width: 128,
-    backgroundColor: 'salmon',
-    zIndex: 99,
-  }
 });

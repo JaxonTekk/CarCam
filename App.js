@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, SafeAreaView } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import LandingPageViewController from './src/LandingPage/LandingPageViewController';
 
 export default function App() {
   return (
-    <LandingPageViewController/>
+    <SafeAreaView>
+      <LandingPageViewController/>
+    </SafeAreaView>
   );
 }
 

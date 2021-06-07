@@ -8,7 +8,7 @@ export default function Header() {
         <View styles={styles.container}>
             <View style={styles.rectangle}>
                 <Text style={styles.largeText}>Welcome</Text>
-                <Text style={styles.smallText}>{d}</Text>
+                <Text style={styles.smallText}>{t}</Text>
             </View>
         </View>
     );

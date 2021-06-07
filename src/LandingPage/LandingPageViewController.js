@@ -3,11 +3,13 @@ import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import Header from './Header'
 import Footer from '../Footer'
+import Statistics from './Components/Statistics';
 
 export default function LandingPageViewController() {
   return (
       <SafeAreaView>
           <Header/>
+          <Statistics/>
           <Footer/>
       </SafeAreaView>
   );

@@ -2,7 +2,7 @@ import React from 'react'
 import {StyleSheet, View, Text, Dimensions} from 'react-native'
 
 export default function Header() {
-    let d = new Date().getHours()%12 + ":" + (new Date().getMinutes()/10===0?"0"+new Date().getMinutes():new Date().getMinutes()) + " " + (new Date().getHours()<12?"AM":"PM");
+    let t = new Date().getHours()%12 + ":" + (new Date().getMinutes()/10<1?"0"+new Date().getMinutes():new Date().getMinutes()) + " " + (new Date().getHours()<12?"AM":"PM");
 
     return (
         <View styles={styles.container}>
@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.5,
         shadowRadius: 3.84,
-    
         elevation: 5,
     },
     largeText: {

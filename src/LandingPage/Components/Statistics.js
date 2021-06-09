@@ -85,7 +85,8 @@ const styles = StyleSheet.create({
         marginRight: 20,
         marginLeft: 15,
         marginBottom: 10
-=======
+    },
+    
     headers: {
         flexDirection: 'row',
         marginLeft: Dimensions.get('window').width/25,

@@ -61,7 +61,9 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
         marginLeft: 15,
-        paddingTop: 10
+        paddingTop: 10,
+        paddingBottom: 10,
+        fontFamily: 'NunitoRegular'
     },
 
     smallText: {
@@ -69,16 +71,16 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginLeft: 15,
         paddingTop: 10,
-        paddingBottom: 10,
-        marginTop: 10
+        paddingBottom: 10
     },
 
     videosText: {
         color: 'white',
         fontSize: 50,
         marginLeft: 15,
-        paddingBottom: 15,
-        marginLeft: 59,
+        paddingTop: 10,
+        paddingBottom: 10,
+        fontFamily: 'NunitoRegular'
     },
 
     progressBar: {
@@ -92,12 +94,13 @@ const styles = StyleSheet.create({
         marginLeft: Dimensions.get('window').width/25,
         marginRight: Dimensions.get('window').width/25,
         marginTop: Dimensions.get('window').height/55,
+        marginBottom: Dimensions.get('window').height/55,
     },
     headerText: {
         fontSize: 26,
         marginTop: 6,
         marginLeft: 10,
-        marginBottom: 20
+        fontFamily: 'NunitoBold'
     },
     icons: {
     }

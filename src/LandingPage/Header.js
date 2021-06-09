@@ -39,13 +39,15 @@ const styles = StyleSheet.create({
     largeText: {
         marginTop: Dimensions.get('window').height/19,
         marginLeft: Dimensions.get('window').width/25,
-        fontSize: 26
+        fontSize: 26,
+        fontFamily: 'NunitoRegular'
     },
     smallText: {
         marginTop: 5,
         marginLeft: Dimensions.get('window').width/25,
         fontSize: 40,
         marginBottom: 10,
-        color: "#4c3f77"
+        color: "#4c3f77",
+        fontFamily: 'NunitoBold'
     }
 });

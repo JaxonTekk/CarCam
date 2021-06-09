@@ -61,8 +61,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
         marginLeft: 15,
-        paddingTop: 10,
-        paddingBottom: 10
+        paddingTop: 10
     },
 
     smallText: {
@@ -70,15 +69,16 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginLeft: 15,
         paddingTop: 10,
-        paddingBottom: 10
+        paddingBottom: 10,
+        marginTop: 10
     },
 
     videosText: {
         color: 'white',
         fontSize: 50,
         marginLeft: 15,
-        paddingTop: 10,
-        paddingBottom: 10
+        paddingBottom: 15,
+        marginLeft: 59,
     },
 
     progressBar: {
@@ -96,7 +96,8 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: 26,
         marginTop: 6,
-        marginLeft: 10
+        marginLeft: 10,
+        marginBottom: 20
     },
     icons: {
     }

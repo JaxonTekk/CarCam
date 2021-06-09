@@ -4,12 +4,14 @@ import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import Header from './Header'
 import Footer from '../Footer'
 import Statistics from './Components/Statistics';
+import Features from './Components/Features';
 
 export default function LandingPageViewController() {
   return (
       <View style={styles.container}>
           <Header/>
           <Statistics/>
+          <Features/>
           <Footer/>
       </View>
   );
@@ -27,5 +29,5 @@ const styles = StyleSheet.create({
     zIndex: 99,
     top: '50%',
     left: '40%'
-  }
+  },
 });

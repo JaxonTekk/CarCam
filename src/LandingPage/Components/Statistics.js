@@ -1,19 +1,23 @@
 import React from 'react'
 import {useState} from 'react'
-import {View, Text, StyleSheet} from 'react-native'
+import {View, Text, StyleSheet, Dimensions} from 'react-native'
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { ProgressBar } from 'react-native-paper';
 
 export default function Statistics() {
-    let [memory, setMemory] = useState(0);
+    let [memoryValue, setMemory] = useState(0);
     let [videos, setVideos] = useState(0);
 
     return(
         <View>
-            <Text>Statistics</Text>
+            <View style={styles.headers}>
+                <MaterialIcon style={styles.icons} name="graphic-eq" size={45} color="black"/>
+                <Text style={styles.headerText}>Statistics</Text>
+            </View>
             <View style={styles.memory}>
                 <Text style={styles.bigText}>Memory</Text>
-                <Text style={styles.smallText}>{memory*100}%</Text>
-                <ProgressBar progress={memory} style={styles.progressBar} color={'white'}/>
+                <Text style={styles.smallText}>{memoryValue*100}%</Text>
+                <ProgressBar progress={memoryValue} style={styles.progressBar} color={'white'}/>
             </View>
             <View style={styles.videos}>
                 <Text style={styles.bigText}>Videos</Text>
@@ -81,5 +85,18 @@ const styles = StyleSheet.create({
         marginRight: 20,
         marginLeft: 15,
         marginBottom: 10
+=======
+    headers: {
+        flexDirection: 'row',
+        marginLeft: Dimensions.get('window').width/25,
+        marginRight: Dimensions.get('window').width/25,
+        marginTop: Dimensions.get('window').height/55,
+    },
+    headerText: {
+        fontSize: 26,
+        marginTop: 6,
+        marginLeft: 10
+    },
+    icons: {
     }
 });

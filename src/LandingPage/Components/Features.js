@@ -12,14 +12,18 @@ export default function Features() {
                 <Text style={styles.headerText}>Features</Text>
             </View>
             <View style={styles.body}>
+                <TouchableOpacity>
                     <View style={styles.start}>
                         <Text style={styles.startText}>Start</Text>
                         <MaterialIcons name="fiber-smart-record" size={35} color="red" style={styles.recordIcon}/>
                     </View>
-                <View style={styles.viewRecordings}>
-                    <Text style={styles.viewRecordingsText}>View Recordings</Text>
-                    <Ocitcons name="file-directory" size={35} color="gray" style={styles.fileIcon}/>
-                </View>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <View style={styles.viewRecordings}>
+                        <Text style={styles.viewRecordingsText}>View Recordings</Text>
+                        <Ocitcons name="file-directory" size={35} color="gray" style={styles.fileIcon}/>
+                    </View>
+                </TouchableOpacity>
             </View>
         </View>
     );

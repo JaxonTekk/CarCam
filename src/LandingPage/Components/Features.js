@@ -1,7 +1,8 @@
 import React from 'react'
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import Ocitcons from 'react-native-vector-icons/Octicons'
 
 export default function Features() {
     return (
@@ -13,10 +14,11 @@ export default function Features() {
             <View style={styles.body}>
                 <View style={styles.start}>
                     <Text style={styles.startText}>Start</Text>
-                    <MaterialCommunityIcons name="fiber-smart-record" size={35}/>
+                    <MaterialIcons name="fiber-smart-record" size={35} color="red" style={styles.recordIcon}/>
                 </View>
                 <View style={styles.viewRecordings}>
                     <Text style={styles.viewRecordingsText}>View Recordings</Text>
+                    <Ocitcons name="file-directory" size={35} color="gray" style={styles.fileIcon}/>
                 </View>
             </View>
         </View>
@@ -90,5 +92,15 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10,
         marginHorizontal: Dimensions.get('window').width/20
+    },
+
+    recordIcon: {
+        marginHorizontal: Dimensions.get('window').width/6 + 5,
+        paddingBottom: 10
+    },
+
+    fileIcon: {
+        marginHorizontal: Dimensions.get('window').width/20 + 55,
+        paddingBottom: 10
     }
 });

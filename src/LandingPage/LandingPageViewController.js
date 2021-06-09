@@ -12,7 +12,7 @@ export default function LandingPageViewController() {
           <Header/>
           <Statistics/>
           <Features/>
-          <Footer/>
+          <Footer style={styles.footer}/>
       </View>
   );
 }
@@ -30,4 +30,8 @@ const styles = StyleSheet.create({
     top: '50%',
     left: '40%'
   },
+
+  footer: {
+    
+  }
 });

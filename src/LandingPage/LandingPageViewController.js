@@ -32,6 +32,5 @@ const styles = StyleSheet.create({
   },
 
   footer: {
-    
   }
 });

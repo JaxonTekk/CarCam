@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, Dimensions, Text } from 'react-native';
+import { View, StyleSheet, Dimensions, Text, TouchableOpacity } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Ocitcons from 'react-native-vector-icons/Octicons'
@@ -12,14 +12,18 @@ export default function Features() {
                 <Text style={styles.headerText}>Features</Text>
             </View>
             <View style={styles.body}>
-                <View style={styles.start}>
-                    <Text style={styles.startText}>Start</Text>
-                    <MaterialIcons name="fiber-smart-record" size={35} color="red" style={styles.recordIcon}/>
-                </View>
-                <View style={styles.viewRecordings}>
-                    <Text style={styles.viewRecordingsText}>View Recordings</Text>
-                    <Ocitcons name="file-directory" size={35} color="gray" style={styles.fileIcon}/>
-                </View>
+                <TouchableOpacity>
+                    <View style={styles.start}>
+                        <Text style={styles.startText}>Start</Text>
+                        <MaterialIcons name="fiber-smart-record" size={35} color="red" style={styles.recordIcon}/>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <View style={styles.viewRecordings}>
+                        <Text style={styles.viewRecordingsText}>View Recordings</Text>
+                        <Ocitcons name="file-directory" size={35} color="gray" style={styles.fileIcon}/>
+                    </View>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -37,7 +41,8 @@ const styles = StyleSheet.create({
         fontSize: 26,
         marginTop: 6,
         marginLeft: 10,
-        marginBottom: 20
+        marginBottom: 20,
+        fontFamily: 'NunitoBold'
     },
 
     bullseye: {
@@ -83,7 +88,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         paddingTop: 10,
         paddingBottom: 10,
-        marginHorizontal: Dimensions.get('window').width/6
+        marginHorizontal: Dimensions.get('window').width/6,
+        fontFamily: 'NunitoRegular'
     },
 
     viewRecordingsText: {

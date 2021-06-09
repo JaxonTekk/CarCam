@@ -86,7 +86,8 @@ const styles = StyleSheet.create({
     progressBar: {
         marginRight: 20,
         marginLeft: 15,
-        marginBottom: 10
+        marginBottom: 10,
+        borderRadius: 10
     },
     
     headers: {

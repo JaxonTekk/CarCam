@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions } from 'react-native';
 import Header from './Header'
 import Footer from '../Footer'
 import Statistics from './Components/Statistics';
@@ -8,11 +8,15 @@ import Features from './Components/Features';
 
 export default function LandingPageViewController() {
   return (
-      <View style={styles.container}>
+      <View>
+        <View style={styles.container}>
           <Header/>
           <Statistics/>
           <Features/>
-          <Footer style={styles.footer}/>
+        </View>
+        <View style={styles.footer}>
+          <Footer/>
+        </View>
       </View>
   );
 }
@@ -20,6 +24,7 @@ export default function LandingPageViewController() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#F8F8F8',
+    flexDirection: 'column',
   },
   rectangle: {
     height: 128,
@@ -32,5 +37,6 @@ const styles = StyleSheet.create({
   },
 
   footer: {
+    top: Dimensions.get('window').width/26,
   }
 });

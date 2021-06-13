@@ -11,21 +11,18 @@ import Record from "./Record"
 import Settings from "./Settings"
 
 export default function LandingPageViewController() {
-  let [home, setHome] = useState(true);
-  let [record, setRecord] = useState(false);
-  let [settings, setSettings] = useState(false);
-  let [cur, setCur] = useState("home")
+  let [page, setPage] = useState("home")
 
   return (
-      <SiteContext.Provider value={{home, setHome, record, setRecord, settings, setSettings, cur, setCur}}>
+      <SiteContext.Provider value={{setPage}}>
         <View>
-          {home && <View style={styles.container}>
+          {page==="home" && <View style={styles.container}>
             <Header/>
             <Statistics/>
             <Features/>
           </View>}
-          {record && <Record/>}
-          {settings && <Settings/>}
+          {page==="record" && <Record/>}
+          {page==="settings" && <Settings/>}
           <View style={styles.footer}>
             <Footer/>
           </View>

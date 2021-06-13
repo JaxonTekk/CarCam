@@ -7,49 +7,19 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import siteContext from './utils/SiteContext';
 
 export default function Footer() {
-  let {home, setHome, record, setRecord, settings, setSettings, cur, setCur} = useContext(siteContext);
+  let {setPage} = useContext(siteContext);
 
   return (
     <View style={styles.container}>
         <View style={styles.rectangle}>
             <TouchableOpacity>
-                <FontAwesomeIcon style={styles.icons} name="home" size={35} color="white" onPress={()=>{
-                  if(cur==="record") {
-                    setHome(true)
-                    setRecord(false)
-                    setCur("home")
-                  } else if(cur==="settings") {
-                    setHome(true)
-                    setSettings(false)
-                    setCur("home")
-                  }
-                }}/>
+                <FontAwesomeIcon style={styles.icons} name="home" size={35} color="white" onPress={()=>setPage("home")}/>
             </TouchableOpacity>
             <TouchableOpacity>
-                <MaterialIcon style={styles.icons} name="fiber-smart-record" size={35} color="white" onPress={()=> {
-                  if(cur==="home") {
-                    setRecord(true)
-                    setHome(false)
-                    setCur("record")
-                  } else if(cur==="settings") {
-                    setRecord(true)
-                    setSettings(false)
-                    setCur("record")
-                  } 
-                }}/>
+                <MaterialIcon style={styles.icons} name="fiber-smart-record" size={35} color="white" onPress={()=> setPage("record")}/>
             </TouchableOpacity>
             <TouchableOpacity>
-                <FeatherIcon style={styles.icons} name="settings" size={35} color="white" onPress={()=>{
-                  if(cur==="home") {
-                    setSettings(true)
-                    setHome(false)
-                    setCur("settings")
-                  } else if(cur==="record") {
-                    setSettings(true)
-                    setRecord(false)
-                    setCur("settings")
-                  }
-                }}/>
+                <FeatherIcon style={styles.icons} name="settings" size={35} color="white" onPress={()=>setPage("settings")}/>
             </TouchableOpacity>
         </View>
     </View>

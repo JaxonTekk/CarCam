@@ -1,4 +1,3 @@
-import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 import React from 'react'
 import {useState} from 'react'
 import {StyleSheet, View, Text, Dimensions} from 'react-native'

@@ -15,17 +15,17 @@ export default function LandingPageViewController() {
 
   return (
       <SiteContext.Provider value={{setPage}}>
-        <View>
-          {page==="home" && <View style={styles.container}>
-            <Header/>
-            <Statistics/>
-            <Features/>
-          </View>}
+        <View style={styles.container}>
+          {page==="home" && 
+            <View>
+              <Header/>
+              <Statistics/>
+              <Features/>
+            </View>
+          }
           {page==="record" && <Record/>}
           {page==="settings" && <Settings/>}
-          <View style={styles.footer}>
-            <Footer/>
-          </View>
+          <Footer style={styles.footer}/>
         </View>
       </SiteContext.Provider>
   );
@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
   },
 
   footer: {
-    top: Dimensions.get('window').width/26,
+    position: 'absolute',
+    bottom: 0
   }
 });

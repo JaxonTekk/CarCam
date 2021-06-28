@@ -1,51 +1,28 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, SafeAreaView, Dimensions } from "react-native";
-import Header from "./Components/Header";
-import Footer from "../Footer";
-import Statistics from "./Components/Statistics";
-import Features from "./Components/Features";
-import SiteContext from "../utils/SiteContext";
+import { BottomNavigation } from "react-native-paper";
+import Home from "./Screens/Home";
 import Record from "./Screens/Record";
 import Settings from "./Screens/Settings";
 
 export default function LandingPageViewController() {
-  let [page, setPage] = useState("home");
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: "home", title: "Home", icon: "home" },
+    { key: "record", title: "Record", icon: "record" },
+    { key: "settings", title: "Settings", icon: "cog" },
+  ]);
+
+  const renderScene = BottomNavigation.SceneMap({
+    home: Home,
+    record: Record,
+    settings: Settings,
+  });
 
   return (
-    <SiteContext.Provider value={{ setPage }}>
-      <View style={styles.container}>
-        {page === "home" && (
-          <View>
-            <Header />
-            <Statistics />
-            <Features />
-          </View>
-        )}
-        {page === "record" && <Record />}
-        {page === "settings" && <Settings />}
-        <Footer style={styles.footer} />
-      </View>
-    </SiteContext.Provider>
+    <BottomNavigation
+      navigationState={{ index, routes }}
+      onIndexChange={setIndex}
+      renderScene={renderScene}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#F8F8F8",
-    flexDirection: "column",
-  },
-  rectangle: {
-    height: 128,
-    width: 128,
-    backgroundColor: "salmon",
-    position: "absolute",
-    zIndex: 99,
-    top: "50%",
-    left: "40%",
-  },
-
-  footer: {
-    position: "absolute",
-    bottom: 0,
-  },
-});

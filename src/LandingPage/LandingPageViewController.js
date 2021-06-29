@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { BottomNavigation } from "react-native-paper";
+import {StyleSheet } from "react-native";
 import Home from "./Screens/Home";
 import Record from "./Screens/Record";
 import Settings from "./Screens/Settings";
@@ -18,12 +19,53 @@ export default function LandingPageViewController() {
     settings: Settings,
   });
 
-  return (
+  if( index == 1 ) {
+    return (
+      <BottomNavigation
+        navigationState={{ index, routes }}
+        onIndexChange={setIndex}
+        renderScene={renderScene}
+        barStyle={styles.bar1}
+      />
+      );
+  }
+  else { return (
     <BottomNavigation
       navigationState={{ index, routes }}
       onIndexChange={setIndex}
       renderScene={renderScene}
-      barStyle={{ borderColor: 'transparent', overflow: 'hidden', borderRadius: 20, backgroundColor: '#4C3F77'}}
+      barStyle={styles.bar}
     />
-  );
+    );
+  }
 }
+
+const styles = StyleSheet.create({
+  bar: {
+    borderColor: 'transparent',
+    overflow: 'hidden',
+    borderRadius: 20,
+    backgroundColor: '#4C3F77',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+  },
+  bar1: {
+    borderColor: 'transparent',
+    overflow: 'hidden',
+    borderRadius: 20,
+    backgroundColor: '#4C3F77',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    marginBottom: -55
+  },
+});

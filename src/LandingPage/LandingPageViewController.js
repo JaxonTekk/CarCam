@@ -23,6 +23,7 @@ export default function LandingPageViewController() {
       navigationState={{ index, routes }}
       onIndexChange={setIndex}
       renderScene={renderScene}
+      barStyle={{ borderColor: 'transparent', overflow: 'hidden', borderRadius: 20, backgroundColor: '#4C3F77'}}
     />
   );
 }

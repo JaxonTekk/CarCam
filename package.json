@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-community/slider": "^3.0.3",
     "expo": "~41.0.1",
     "expo-camera": "~11.0.2",
     "expo-font": "~9.1.0",

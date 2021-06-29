@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     marginHorizontal: Dimensions.get("window").width / 20,
+    fontFamily: "NunitoRegular",
   },
 
   recordIcon: {

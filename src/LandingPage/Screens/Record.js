@@ -26,8 +26,8 @@ export default function Record() {
     return <Text>No access to camera</Text>;
   }
   return (
-    <SafeAreaView style={styles.container}>
-      <Camera style={styles.camera} type={type}>
+    <View style={styles.container}>
+      <Camera style={styles.camera} type={type} >
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
@@ -43,7 +43,7 @@ export default function Record() {
           </TouchableOpacity>
         </View>
       </Camera>
-    </SafeAreaView>
+    </View>
   );
 }
 

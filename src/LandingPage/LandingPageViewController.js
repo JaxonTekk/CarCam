@@ -35,6 +35,8 @@ export default function LandingPageViewController() {
       onIndexChange={setIndex}
       renderScene={renderScene}
       barStyle={styles.bar}
+      labeled={false}
+      
     />
     );
   }
@@ -44,15 +46,11 @@ const styles = StyleSheet.create({
   bar: {
     borderColor: 'transparent',
     overflow: 'hidden',
-    borderRadius: 20,
+    borderRadius: 15,
     backgroundColor: '#4C3F77',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 3.84,
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 5,
   },
   bar1: {
     borderColor: 'transparent',

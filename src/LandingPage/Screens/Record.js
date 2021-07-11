@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   View,
+  Platform,
 } from "react-native";
 import { Camera } from "expo-camera";
 
@@ -27,7 +28,7 @@ export default function Record() {
   }
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={type} >
+      <Camera style={styles.camera} type={type}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}

@@ -1,31 +1,68 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import Header from './Header'
-import Footer from '../Footer'
-import Statistics from './Components/Statistics';
+import React, { useState } from "react";
+import { BottomNavigation } from "react-native-paper";
+import {StyleSheet } from "react-native";
+import Home from "./Screens/Home";
+import Record from "./Screens/Record";
+import Settings from "./Screens/Settings";
 
 export default function LandingPageViewController() {
-  return (
-      <View style={styles.container}>
-          <Header/>
-          <Statistics/>
-          <Footer/>
-      </View>
-  );
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: "home", title: "Home", icon: "home" },
+    { key: "record", title: "Record", icon: "record" },
+    { key: "settings", title: "Settings", icon: "cog" },
+  ]);
+
+  const renderScene = BottomNavigation.SceneMap({
+    home: Home,
+    record: Record,
+    settings: Settings,
+  });
+
+  if( index == 1 ) {
+    return (
+      <BottomNavigation
+        navigationState={{ index, routes }}
+        onIndexChange={setIndex}
+        renderScene={renderScene}
+        barStyle={styles.bar1}
+      />
+      );
+  }
+  else { return (
+    <BottomNavigation
+      navigationState={{ index, routes }}
+      onIndexChange={setIndex}
+      renderScene={renderScene}
+      barStyle={styles.bar}
+      style={{backgroundColor: '#F8F8F8'}}
+    />
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#F8F8F8',
+  bar: {
+    borderColor: 'transparent',
+    overflow: 'hidden',
+    borderRadius: 15,
+    backgroundColor: '#4C3F77',
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 5,
   },
-  rectangle: {
-    height: 128,
-    width: 128,
-    backgroundColor: 'salmon',
-    position: 'absolute', 
-    zIndex: 99,
-    top: '50%',
-    left: '40%'
-  }
+  bar1: {
+    borderColor: 'transparent',
+    overflow: 'hidden',
+    borderRadius: 20,
+    backgroundColor: '#4C3F77',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    marginBottom: -55
+  },
 });

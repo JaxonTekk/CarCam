@@ -1,85 +1,38 @@
-import React from 'react'
-import {useState} from 'react'
-import {View, Text, StyleSheet} from 'react-native'
-import { ProgressBar } from 'react-native-paper';
+import React from "react";
+import { useState } from "react";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { AnimatedCircularProgress } from "react-native-circular-progress";
 
 export default function Statistics() {
-    let [memory, setMemory] = useState(0);
-    let [videos, setVideos] = useState(0);
+  let [memoryValue, setMemory] = useState(0);
+  let [videos, setVideos] = useState(0);
 
-    return(
-        <View>
-            <Text>Statistics</Text>
-            <View style={styles.memory}>
-                <Text style={styles.bigText}>Memory</Text>
-                <Text style={styles.smallText}>{memory*100}%</Text>
-                <ProgressBar progress={memory} style={styles.progressBar} color={'white'}/>
-            </View>
-            <View style={styles.videos}>
-                <Text style={styles.bigText}>Videos</Text>
-                <Text style={styles.videosText}>{videos}</Text>
-            </View>
-        </View>
-    );
+  return (
+    <View>
+      <AnimatedCircularProgress size={Dimensions.get('window').width/1.6} width={13} fill={75} backgroundWidth={6} rotation={0,-360} tintColor="#007F97" lineCap="round" backgroundColor="#D7EAEE" style={styles.circle1}/>
+      <Text style={styles.largeText}>88</Text>
+      <Text style={styles.smallText}>Videos</Text>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    memory: {
-        backgroundColor: '#007f97', 
-        borderRadius: 20,
-        marginHorizontal: 15,
-        marginBottom: 10,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.5,
-        shadowRadius: 3.84,
-    },
-
-    videos: {
-        backgroundColor: '#7c587f',
-        borderRadius: 15,
-        marginLeft: 15,
-        marginRight: 250,
-        marginBottom: 10,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.5,
-        shadowRadius: 3.84,
-    },
-    
-    bigText: {
-        color: 'white',
-        fontSize: 20,
-        marginLeft: 15,
-        paddingTop: 10,
-        paddingBottom: 10
-    },
-
-    smallText: {
-        color: 'white',
-        fontSize: 20,
-        marginLeft: 15,
-        paddingTop: 10,
-        paddingBottom: 10
-    },
-
-    videosText: {
-        color: 'white',
-        fontSize: 50,
-        marginLeft: 15,
-        paddingTop: 10,
-        paddingBottom: 10
-    },
-
-    progressBar: {
-        marginRight: 20,
-        marginLeft: 15,
-        marginBottom: 10
-    }
+  circle1: {
+    marginTop: 30,
+    alignItems: 'center',
+  },
+  largeText: {
+    position: 'absolute',
+    marginTop: (Dimensions.get('window').width/1.6)/2 - 30,
+    marginLeft: (Dimensions.get('window').width/1.6)/2 + 20,
+    fontSize: 100,
+    color: '#051126'
+  },
+  smallText: {
+    position: 'absolute',
+    marginTop: (Dimensions.get('window').width/1.6)/2 + 75,
+    marginLeft: (Dimensions.get('window').width/1.6)/2 + 45,
+    fontSize: 20,
+    color: '#A4BCBC'
+  }
 });

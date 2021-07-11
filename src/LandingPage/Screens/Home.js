@@ -1,15 +1,32 @@
 import React from "react";
 import { View } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
 import Header from "../Components/Header";
 import Statistics from "../Components/Statistics";
 import Features from "../Components/Features";
+import ViewRecordings from "./ViewRecordings";
+
+function HomeScreen({ navigation }) {
+  return (
+    <View style={{ backgroundColor: "#F8F8F8" }}>
+      <Header />
+      <Statistics />
+      <Features navigation={navigation} />
+    </View>
+  );
+}
+
+const Stack = createStackNavigator();
 
 export default function Home() {
   return (
-    <View style={{backgroundColor: '#F8F8F8'}}>
-      <Header />
-      <Statistics />
-      <Features />
-    </View>
+    <Stack.Navigator initialRouteHome="Home">
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen name="View Recordings" component={ViewRecordings} />
+    </Stack.Navigator>
   );
 }

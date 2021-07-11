@@ -35,8 +35,7 @@ export default function LandingPageViewController() {
       onIndexChange={setIndex}
       renderScene={renderScene}
       barStyle={styles.bar}
-      labeled={false}
-      
+      style={{backgroundColor: '#F8F8F8'}}
     />
     );
   }

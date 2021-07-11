@@ -6,7 +6,7 @@ import Features from "../Components/Features";
 
 export default function Home() {
   return (
-    <View>
+    <View style={{backgroundColor: '#F8F8F8'}}>
       <Header />
       <Statistics />
       <Features />

@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@react-native-community/slider": "^3.0.3",
+    "@react-navigation/bottom-tabs": "^5.11.11",
+    "@react-navigation/native": "^5.9.4",
     "expo": "~41.0.1",
     "expo-camera": "~11.0.2",
     "expo-font": "~9.1.0",
@@ -19,6 +21,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
     "react-native-paper": "^4.9.2",
     "react-native-progress": "^4.1.2",
+    "react-native-screens": "^3.4.0",
     "react-native-vector-icons": "^8.1.0",
     "react-native-web": "^0.16.5"
   },

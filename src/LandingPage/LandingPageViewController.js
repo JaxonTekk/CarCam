@@ -1,69 +1,28 @@
-import React, { useState } from "react";
-import { BottomNavigation } from "react-native-paper";
-import {StyleSheet } from "react-native";
-import Home from "./Screens/Home";
-import Record from "./Screens/Record";
-import Settings from "./Screens/Settings";
+import React from "react";
+import { Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Home from "./Screens/Home.js";
+import Record from "./Screens/Record.js";
+import Settings from "./Screens/Settings.js";
 
-export default function LandingPageViewController() {
-  const [index, setIndex] = useState(0);
-  const [routes] = useState([
-    { key: "home", title: "Home", icon: "home" },
-    { key: "record", title: "Record", icon: "record" },
-    { key: "settings", title: "Settings", icon: "cog" },
-  ]);
+const Tab = createBottomTabNavigator();
 
-  const renderScene = BottomNavigation.SceneMap({
-    home: Home,
-    record: Record,
-    settings: Settings,
-  });
-
-  if( index == 1 ) {
-    return (
-      <BottomNavigation
-        navigationState={{ index, routes }}
-        onIndexChange={setIndex}
-        renderScene={renderScene}
-        barStyle={styles.bar1}
-      />
-      );
-  }
-  else { return (
-    <BottomNavigation
-      navigationState={{ index, routes }}
-      onIndexChange={setIndex}
-      renderScene={renderScene}
-      barStyle={styles.bar}
-      labeled={false}
-      
-    />
-    );
-  }
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator
+        tabBarOptions={{
+          activeBackgroundColor: "#4c3f77",
+          inactiveBackgroundColor: "#4c3f77",
+          activeTintColor: "white",
+          inactiveTintColor: "white",
+        }}
+      >
+        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Record" component={Record} />
+        <Tab.Screen name="Settings" component={Settings} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
 }
-
-const styles = StyleSheet.create({
-  bar: {
-    borderColor: 'transparent',
-    overflow: 'hidden',
-    borderRadius: 15,
-    backgroundColor: '#4C3F77',
-    marginLeft: 15,
-    marginRight: 15,
-    marginBottom: 5,
-  },
-  bar1: {
-    borderColor: 'transparent',
-    overflow: 'hidden',
-    borderRadius: 20,
-    backgroundColor: '#4C3F77',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 3.84,
-    marginBottom: -55
-  },
-});

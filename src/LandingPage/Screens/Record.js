@@ -5,10 +5,12 @@ import {
   SafeAreaView,
   TouchableOpacity,
   View,
+  Platform,
 } from "react-native";
 import { Camera } from "expo-camera";
 
 export default function Record() {
+  P
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
 

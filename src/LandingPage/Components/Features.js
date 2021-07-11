@@ -5,125 +5,60 @@ import {
   Dimensions,
   Text,
   TouchableOpacity,
+  ScrollView
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import Ocitcons from "react-native-vector-icons/Octicons";
 
 export default function Features() {
   return (
-    <View>
-      <View style={styles.headers}>
-        <FontAwesome5 name="bullseye" size={35} style={styles.bullseye} />
-        <Text style={styles.headerText}>Features</Text>
-      </View>
-      <View style={styles.body}>
-        <TouchableOpacity>
-          <View style={styles.start}>
-            <Text style={styles.startText}>Start</Text>
-            <MaterialIcons
-              name="fiber-smart-record"
-              size={35}
-              color="red"
-              style={styles.recordIcon}
-            />
+    <ScrollView styles={{flexDirection: 'column', justifyContent: 'space-between'}}>
+      <TouchableOpacity>
+        <View style={styles.rectangle}>
+          <MaterialIcons name="collections" size={60} style={styles.icons}/>
+          <View style={{flexDirection: 'column', flexShrink: 1}}>
+            <Text style={styles.largeText}>View Recordings</Text>
+            <Text style={styles.smallText}>Manage all of your previous recordings</Text>
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles.viewRecordings}>
-            <Text style={styles.viewRecordingsText}>View Recordings</Text>
-            <Ocitcons
-              name="file-directory"
-              size={35}
-              color="gray"
-              style={styles.fileIcon}
-            />
-          </View>
-        </TouchableOpacity>
-      </View>
-    </View>
+        </View>
+      </TouchableOpacity>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  headers: {
+  rectangle: {
+    backgroundColor: "white",
     flexDirection: "row",
-    marginLeft: Dimensions.get("window").width / 25,
-    marginRight: Dimensions.get("window").width / 25,
-    marginTop: Dimensions.get("window").height / 55,
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 30,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 10,
+    marginBottom: 10
   },
-
-  headerText: {
-    fontSize: 26,
-    marginTop: 6,
-    marginLeft: 10,
+  icons: {
+    marginLeft: 20,
+    marginTop: 20,
     marginBottom: 20,
-    fontFamily: "NunitoBold",
+    color: '#DF4F97',
   },
-
-  bullseye: {
-    marginTop: 5,
-  },
-
-  body: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-
-  start: {
-    backgroundColor: "#007f97",
-    borderRadius: 20,
-    marginLeft: 15,
-    marginRight: 10,
-    marginBottom: 10,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 3.84,
-  },
-
-  viewRecordings: {
-    backgroundColor: "#7c587f",
-    borderRadius: 20,
-    marginRight: 15,
-    marginBottom: 10,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 3.84,
-  },
-
-  startText: {
-    color: "white",
+  largeText: {
+    marginTop: 15,
+    fontFamily: 'Nunito-Bold',
     fontSize: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-    marginHorizontal: Dimensions.get("window").width / 6,
-    fontFamily: "NunitoRegular",
+    marginLeft: 20
   },
-
-  viewRecordingsText: {
-    color: "white",
-    fontSize: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-    marginHorizontal: Dimensions.get("window").width / 20,
-    fontFamily: "NunitoRegular",
-  },
-
-  recordIcon: {
-    marginHorizontal: Dimensions.get("window").width / 6 + 5,
-    paddingBottom: 10,
-  },
-
-  fileIcon: {
-    marginHorizontal: Dimensions.get("window").width / 20 + 55,
-    paddingBottom: 10,
-  },
+  smallText: {
+    marginLeft: 20,
+    fontFamily: 'Nunito-Regular',
+    marginTop: 4,
+    color: '#8D8D8D',
+    fontSize: 15,
+  }
 });

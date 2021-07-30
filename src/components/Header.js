@@ -5,8 +5,8 @@ import { StyleSheet, View, Text, Dimensions } from "react-native";
 export default function Header() {
   return (
     <View style={styles.rectangle}>
-        <Text style={styles.largeText}>HOME</Text>
-      </View>
+      <Text style={styles.largeText}>HOME</Text>
+    </View>
   );
 }
 
@@ -31,6 +31,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 26,
     fontFamily: "Nunito-Bold",
-    textAlign: 'center'
+    textAlign: "center",
   },
 });

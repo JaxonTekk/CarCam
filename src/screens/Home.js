@@ -1,9 +1,9 @@
 import React from "react";
 import { View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import Header from "../Components/Header";
-import Statistics from "../Components/Statistics";
-import Features from "../Components/Features";
+import Header from "../components/Header";
+import Statistics from "../components/Statistics";
+import Features from "../components/Features";
 import ViewRecordings from "./ViewRecordings";
 
 function HomeScreen({ navigation }) {

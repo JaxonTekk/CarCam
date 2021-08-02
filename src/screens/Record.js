@@ -8,6 +8,7 @@ import {
   Platform,
 } from "react-native";
 import { Camera } from "expo-camera";
+import * as ScreenOrientation from "expo-screen-orientation";
 
 export default function Record() {
   const [hasPermission, setHasPermission] = useState(null);

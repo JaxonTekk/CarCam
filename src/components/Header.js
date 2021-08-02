@@ -1,12 +1,12 @@
 import React from "react";
 import { useState } from "react";
-import { StyleSheet, View, Text, Dimensions } from "react-native";
+import { SafeAreaView, StyleSheet, View, Text, Dimensions } from "react-native";
 
 export default function Header() {
   return (
-    <View style={styles.rectangle}>
+    <SafeAreaView style={styles.rectangle}>
       <Text style={styles.largeText}>HOME</Text>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   largeText: {
-    marginTop: Dimensions.get("window").height / 19,
     marginBottom: 10,
     fontSize: 26,
     fontFamily: "Nunito-Bold",

@@ -15,12 +15,14 @@ export default function TabNaivgator() {
     <NavigationContainer>
       <Tab.Navigator
         initialRouteName="Home"
-        tabBarOptions={{
-          activeBackgroundColor: "#4c3f77",
-          inactiveBackgroundColor: "#4c3f77",
-          activeTintColor: "white",
-          inactiveTintColor: "white",
-        }}
+        tabBarOptions={
+          {
+            // activeBackgroundColor: "#4c3f77",
+            // inactiveBackgroundColor: "#4c3f77",
+            // activeTintColor: "white",
+            // inactiveTintColor: "white",
+          }
+        }
       >
         <Tab.Screen
           name="Home"

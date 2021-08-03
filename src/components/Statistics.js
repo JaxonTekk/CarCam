@@ -9,7 +9,7 @@ export default function Statistics() {
 
   const read = async () => {
     const videos = await AsyncStorage.getItem("@videos");
-    if (videos) setVideos(videos);
+    if (videos) setVideos(JSON.parse(videos));
   };
 
   useEffect(() => {

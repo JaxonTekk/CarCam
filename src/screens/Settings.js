@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   Text,
@@ -11,14 +11,36 @@ import { Switch } from "react-native-paper";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Slider from "@react-native-community/slider";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Settings() {
   const [memoryValue, setMemoryValue] = useState(15);
   const [maxRecordingTime, setMaxRecordingTime] = useState(15);
   const [saveVideoToPhotoGallery, setSaveVideoToPhotoGallery] = useState(false);
 
-  const toggleSaveVideoToPhotoGallery = () =>
+  const read = async () => {
+    const settings = await AsyncStorage.getItem("@settings");
+    if (settings) {
+      const parsedSettings = JSON.parse(settings);
+      setMemoryValue(parsedSettings.memoryValue);
+      setMaxRecordingTime(parsedSettings.maxRecordingTime);
+      setSaveVideoToPhotoGallery(parsedSettings.saveVideoToPhotoGallery);
+    }
+  };
+
+  useEffect(() => {
+    read();
+  }, []);
+
+  const toggleSaveVideoToPhotoGallery = async () => {
     setSaveVideoToPhotoGallery(!saveVideoToPhotoGallery);
+    const settings = {
+      memoryValue: memoryValue,
+      maxRecordingTime: maxRecordingTime,
+      saveVideoToPhotoGallery: saveVideoToPhotoGallery,
+    };
+    await AsyncStorage.setItem("@settings", JSON.stringify(settings));
+  };
 
   return (
     <View styles={styles.container}>
@@ -38,7 +60,15 @@ export default function Settings() {
             style={{ marginLeft: 10, marginRight: 20 }}
             maximumValue={1024}
             step={1}
-            onValueChange={(memoryValue) => setMemoryValue(memoryValue)}
+            onValueChange={async (memoryValue) => {
+              setMemoryValue(memoryValue);
+              const settings = {
+                memoryValue: memoryValue,
+                maxRecordingTime: maxRecordingTime,
+                saveVideoToPhotoGallery: saveVideoToPhotoGallery,
+              };
+              await AsyncStorage.setItem("@settings", JSON.stringify(settings));
+            }}
             minimumTrackTintColor="#007F97"
           />
         </View>
@@ -59,9 +89,15 @@ export default function Settings() {
             style={{ marginLeft: 10, marginRight: 20 }}
             maximumValue={1000}
             step={1}
-            onValueChange={(maxRecordingTime) =>
-              setMaxRecordingTime(maxRecordingTime)
-            }
+            onValueChange={async (maxRecordingTime) => {
+              setMaxRecordingTime(maxRecordingTime);
+              const settings = {
+                memoryValue: memoryValue,
+                maxRecordingTime: maxRecordingTime,
+                saveVideoToPhotoGallery: saveVideoToPhotoGallery,
+              };
+              await AsyncStorage.setItem("@settings", JSON.stringify(settings));
+            }}
             minimumTrackTintColor="#007F97"
           />
         </View>

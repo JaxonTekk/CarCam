@@ -16,10 +16,6 @@ export default function TabNaivgator() {
     <NavigationContainer>
       <Tab.Navigator
         initialRouteName="Home"
-        screenOptions={(route) => {
-          if( route.name != "Record" ) { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT) } 
-          else { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.ALL) }
-        }}
         tabBarOptions={
           {
             // activeBackgroundColor: "#4c3f77",
@@ -35,10 +31,10 @@ export default function TabNaivgator() {
           options={{
             tabBarLabel: "Home",
             tabBarIcon: ({ color }) => (
-              <FontAwesome5 name="home" color={color} />
+              <Ocitcons name="file-directory" color={color} />
             ),
           }}
-          cli
+          listeners={({ navigation }) => ({tabPress: (e) => { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT) }})}
         />
         <Tab.Screen
           name="Record"
@@ -46,9 +42,10 @@ export default function TabNaivgator() {
           options={{
             tabBarLabel: "Record",
             tabBarIcon: ({ color }) => (
-              <MaterialIcons name="fiber-smart-record" color={color} />
+              <Ocitcons name="file-directory" color={color} />
             ),
           }}
+          listeners={({ navigation }) => ({tabPress: (e) => { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.ALL) }})}
         />
         <Tab.Screen
           name="Settings"
@@ -59,6 +56,7 @@ export default function TabNaivgator() {
               <Ocitcons name="file-directory" color={color} />
             ),
           }}
+          listeners={({ navigation }) => ({tabPress: (e) => { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT) }})}
         />
       </Tab.Navigator>
     </NavigationContainer>

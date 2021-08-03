@@ -30,6 +30,9 @@ const [hasPermission, setHasPermission] = useState(null);
     <View style={styles.container}>
       <Camera style={styles.camera} type={type}>
         <View style={styles.topContainer}>
+          <TouchableOpacity>
+            
+          </TouchableOpacity>
           <Text>hi</Text>
         </View>
         <View style={styles.buttonContainer}>
@@ -67,7 +70,7 @@ const styles = StyleSheet.create({
   topContainer: {
     flex: 1,
     backgroundColor: "transparent",
-    flexDirection: "column",
+    flexDirection: "row",
     margin: 20,
   },
   button: {

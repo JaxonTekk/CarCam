@@ -45,7 +45,7 @@ export default function TabNaivgator() {
               <Ocitcons name="file-directory" color={color} />
             ),
           }}
-          listeners={({ navigation }) => ({tabPress: (e) => { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.ALL) }})}
+          listeners={({ navigation }) => ({tabPress: (e) => { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE) }})}
         />
         <Tab.Screen
           name="Settings"

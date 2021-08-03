@@ -10,7 +10,7 @@ import {
 import { Camera } from "expo-camera";
 
 export default function Record() {
-  const [hasPermission, setHasPermission] = useState(null);
+const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
 
   useEffect(() => {
@@ -29,6 +29,9 @@ export default function Record() {
   return (
     <View style={styles.container}>
       <Camera style={styles.camera} type={type}>
+        <View style={styles.topContainer}>
+          <Text>hi</Text>
+        </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
@@ -59,6 +62,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "transparent",
     flexDirection: "row",
+    margin: 20,
+  },
+  topContainer: {
+    flex: 1,
+    backgroundColor: "transparent",
+    flexDirection: "column",
     margin: 20,
   },
   button: {

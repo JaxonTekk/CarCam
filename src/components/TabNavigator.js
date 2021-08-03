@@ -7,6 +7,7 @@ import Ocitcons from "react-native-vector-icons/Octicons";
 import Home from "../screens/Home.js";
 import Record from "../screens/Record.js";
 import Settings from "../screens/Settings.js";
+import * as ScreenOrientation from "expo-screen-orientation"
 
 const Tab = createBottomTabNavigator();
 
@@ -15,6 +16,10 @@ export default function TabNaivgator() {
     <NavigationContainer>
       <Tab.Navigator
         initialRouteName="Home"
+        screenOptions={(route) => {
+          if( route.name != "Record" ) { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT) } 
+          else { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.ALL) }
+        }}
         tabBarOptions={
           {
             // activeBackgroundColor: "#4c3f77",
@@ -33,6 +38,7 @@ export default function TabNaivgator() {
               <FontAwesome5 name="home" color={color} />
             ),
           }}
+          cli
         />
         <Tab.Screen
           name="Record"

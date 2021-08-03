@@ -1,11 +1,20 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Statistics() {
-  let [memoryValue, setMemory] = useState(0);
-  let [videos, setVideos] = useState(0);
+  const [memoryValue, setMemory] = useState(0);
+  const [videos, setVideos] = useState(0);
+
+  const read = async () => {
+    const videos = await AsyncStorage.getItem("@videos");
+    if (videos) setVideos(videos);
+  };
+
+  useEffect(() => {
+    read();
+  }, []);
 
   return (
     <View>
@@ -20,7 +29,7 @@ export default function Statistics() {
         backgroundColor="#D7EAEE"
         style={styles.circle1}
       />
-      <Text style={styles.largeText}>88</Text>
+      <Text style={styles.largeText}>{videos}</Text>
       <Text style={styles.smallText}>Videos</Text>
     </View>
   );

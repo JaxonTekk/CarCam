@@ -8,7 +8,7 @@ export default function Statistics() {
   const [videos, setVideos] = useState(0);
 
   const read = async () => {
-    const videos = await AsyncStorage.getItem("@videos");
+    const videos = await AsyncStorage.getItem("@videoCount");
     if (videos) setVideos(JSON.parse(videos));
   };
 

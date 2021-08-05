@@ -5,7 +5,7 @@ export default function ViewRecordings() {
   const RecordingCard = (props) => {
     return (
       <View styles={styles.recordingsContainer}>
-          
+          <Image/>
       </View>
     );
   }

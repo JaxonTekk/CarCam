@@ -28,7 +28,7 @@ export default function Record() {
           setSpeed(Math.ceil(position.coords.speed.toFixed(2)));
         },
         error => Alert.alert(error.message),
-        { enableHighAccuracy: false, timeout: 0, maximumAge: Infinity }
+        { enableHighAccuracy: true, timeout: 0, maximumAge: Number.MAX_VALUE }
       );
     }, 2000);
   }, []);

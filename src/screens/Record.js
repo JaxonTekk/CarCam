@@ -6,17 +6,32 @@ import {
   TouchableOpacity,
   View,
   Platform,
-  Dimensions,
+  Dimensions, Alert
 } from "react-native";
 import { Camera } from "expo-camera";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import * as Location from 'expo-location';
 
 export default function Record() {
+  Location.installWebGeolocationPolyfill();
   const [camera, setCamera] = useState(undefined);
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [recording, setRecording] = useState(false);
+  const[speed, setSpeed] = useState(0.0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          setSpeed(Math.ceil(position.coords.speed.toFixed(2)));
+        },
+        error => Alert.alert(error.message),
+        { enableHighAccuracy: false, timeout: 0, maximumAge: Infinity }
+      );
+    }, 2000);
+  }, []);
 
   const toggleRecord = async () => {
     if (camera) {
@@ -78,7 +93,7 @@ export default function Record() {
         </View>
         <View style={styles.bottomContainer}>
           <View style={styles.speedContainer}>
-            <Text style={styles.speedText}>0</Text>
+            <Text style={styles.speedText}>{speed}</Text>
             <Text style={styles.mphText}> mph</Text>
           </View>
         </View>

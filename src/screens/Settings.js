@@ -12,11 +12,20 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Slider from "@react-native-community/slider";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import DropDownPicker from "react-native-dropdown-picker";
 
 export default function Settings() {
   const [memoryValue, setMemoryValue] = useState(15);
   const [maxRecordingTime, setMaxRecordingTime] = useState(15);
   const [saveVideoToPhotoGallery, setSaveVideoToPhotoGallery] = useState(false);
+
+  // DropDown Storage Values
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    {label: 'MPH', value: 'mph'},
+    {label: 'KMH', value: 'kmh'}
+  ]);
 
   const read = async () => {
     const settings = await AsyncStorage.getItem("@settings");
@@ -112,6 +121,24 @@ export default function Settings() {
             onValueChange={toggleSaveVideoToPhotoGallery}
           />
         </View>
+        <View style={styles.selectionContainer}>
+          <Text style={styles.selectionContainerText}>
+            Speed Meter Unit
+          </Text>
+          <DropDownPicker
+            open={open}
+            value={value}
+            items={items}
+            setOpen={setOpen}
+            setValue={setValue}
+            setItems={setItems}
+            style={styles.dropdownStyle}
+            textStyle={{
+              color: "#007F97",
+              borderColor: "#007F97"
+            }}
+          />
+        </View>
       </ScrollView>
     </View>
   );
@@ -179,4 +206,10 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginRight: 10,
   },
+  dropdownStyle: {
+    width: Dimensions.get("window").width / 1.2,
+    marginLeft: 10,
+    marginBottom: 10,
+    borderColor: "#007F97"
+  }
 });

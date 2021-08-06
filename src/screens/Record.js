@@ -6,47 +6,33 @@ import {
   TouchableOpacity,
   View,
   Platform,
-  Dimensions, Alert
+  Dimensions,
+  Alert,
 } from "react-native";
 import { Camera } from "expo-camera";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import * as Location from 'expo-location';
+import * as Location from "expo-location";
 
 export default function Record() {
-  Location.installWebGeolocationPolyfill();
   const [camera, setCamera] = useState(undefined);
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [recording, setRecording] = useState(false);
-  const[speed, setSpeed] = useState(0.0);
+  const [speed, setSpeed] = useState(0.0);
 
   useEffect(() => {
+    Location.installWebGeolocationPolyfill();
     const interval = setInterval(() => {
       navigator.geolocation.getCurrentPosition(
-        position => {
+        (position) => {
           setSpeed(Math.ceil(position.coords.speed.toFixed(2)));
         },
-        error => Alert.alert(error.message),
+        (error) => Alert.alert(error.message),
         { enableHighAccuracy: true, timeout: 0, maximumAge: Number.MAX_VALUE }
       );
     }, 2000);
   }, []);
-
-  const toggleRecord = async () => {
-    if (camera) {
-      if (recording) {
-        camera.stopRecording();
-        setRecording(false);
-      } else {
-        const { uri } = await camera.recordAsync();
-        const videos = JSON.parse(await AsyncStorage.getItem("@videos"));
-        await AsyncStorage.setItem("@videos", JSON.stringify([...videos, uri]));
-        setRecording(true);
-        console.log(uri);
-      }
-    }
-  };
 
   useEffect(() => {
     (async () => {
@@ -97,7 +83,29 @@ export default function Record() {
             <Text style={styles.mphText}> mph</Text>
           </View>
         </View>
-        <TouchableOpacity onPress={toggleRecord}>
+        <TouchableOpacity
+          style={styles.recBtn}
+          onPress={async () => {
+            if (!recording) {
+              setRecording(true);
+              let video = await camera.recordAsync();
+              console.log("video", video);
+              const videos = await AsyncStorage.getItem("@videos");
+              const parsedVideos = JSON.parse(videos);
+              if (parsedVideos) {
+                await AsyncStorage.setItem("@videos", [
+                  ...parsedVideos,
+                  video.uri,
+                ]);
+              } else {
+                await AsyncStorage.setItem("@videos", [video.uri]);
+              }
+            } else {
+              setRecording(false);
+              camera.stopRecording();
+            }
+          }}
+        >
           <Text>Record</Text>
         </TouchableOpacity>
       </Camera>
@@ -173,5 +181,11 @@ const styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     color: "white",
     marginTop: "auto",
+  },
+
+  recBtn: {
+    borderWidth: 5,
+    backgroundColor: "white",
+    padding: 15,
   },
 });

@@ -1,21 +1,31 @@
 import React from "react";
-import { SafeAreaView, Text, View, StyleSheet, Dimensions, TouchableOpacity, Image } from "react-native";
+import {
+  SafeAreaView,
+  Text,
+  View,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  Image,
+  FlatList,
+} from "react-native";
 
 export default function ViewRecordings() {
   const RecordingCard = (props) => {
     return (
       <View styles={styles.recordingsContainer}>
-          <Image/>
+        <Image />
       </View>
     );
-  }
+  };
 
   return (
     <SafeAreaView>
       <View style={styles.recordingsListContainer}>
         <Text style={styles.yearHeadingText}>2021</Text>
+        <FlatList />
         <TouchableOpacity>
-          <RecordingCard/>
+          <RecordingCard />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -31,9 +41,9 @@ const styles = StyleSheet.create({
   },
   yearHeadingText: {
     fontSize: 23,
-    fontFamily: "Nunito-Bold"
+    fontFamily: "Nunito-Bold",
   },
   recordingsContainer: {
     flexDirection: "row",
-  }
+  },
 });

@@ -2,26 +2,37 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as FileSystem from "expo-file-system"
 
 export default function Statistics() {
   const [memoryValue, setMemory] = useState(0);
   const [videos, setVideos] = useState(0);
 
+  const [usedStorage, setUsedStorage] = useState(0);
+  const [availableStorage, setAvailableStorage] = useState(0);
+
   const read = async () => {
     const videos = await AsyncStorage.getItem("@videoCount");
     if (videos) setVideos(JSON.parse(videos));
+
+    FileSystem.getFreeDiskStorageAsync().then(freeDiskStorage => {setUsedStorage(freeDiskStorage)})
+    FileSystem.getTotalDiskCapacityAsync().then(totalDiskCopacity => {setAvailableStorage(totalDiskCopacity)})
+    console.log("US " + usedStorage)
+    console.log("AS " + availableStorage)
+
+    setMemory(((availableStorage-usedStorage)/availableStorage)*100)
+    console.log("P " + memoryValue)
   };
 
   useEffect(() => {
     read();
   }, []);
-
   return (
     <View>
       <AnimatedCircularProgress
         size={Dimensions.get("window").width / 1.6}
         width={13}
-        fill={75}
+        fill={parseInt(memoryValue)}
         backgroundWidth={6}
         rotation={(0, -360)}
         tintColor="#007F97"

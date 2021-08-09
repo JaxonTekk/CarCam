@@ -31,10 +31,13 @@ export default function Record() {
       const parsedVideos = JSON.parse(videos);
       await AsyncStorage.setItem(
         "@videos",
-        JSON.stringify([...parsedVideos, video.uri])
+        JSON.stringify([...parsedVideos, { date: new Date(), uri: video.uri }])
       );
     } else {
-      await AsyncStorage.setItem("@videos", JSON.stringify([video.uri]));
+      await AsyncStorage.setItem(
+        "@videos",
+        JSON.stringify([{ date: new Date(), uri: video.uri }])
+      );
     }
   };
 

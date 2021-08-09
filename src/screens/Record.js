@@ -22,6 +22,7 @@ export default function Record() {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [recording, setRecording] = useState(false);
   const [speed, setSpeed] = useState(0.0);
+  const [time, setTime] = useState(0);
 
   const save = async (video) => {
     await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount + 1));
@@ -46,12 +47,13 @@ export default function Record() {
     const interval = setInterval(() => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setSpeed(Math.ceil(position.coords.speed.toFixed(2)));
+          setSpeed(Math.round((position.coords.speed * 2.236936)));
         },
         (error) => Alert.alert(error.message),
         { enableHighAccuracy: true, timeout: 0, maximumAge: Number.MAX_VALUE }
       );
-    }, 2000);
+      setTime(Date.now());
+    }, 1000);
   }, []);
 
   useEffect(() => {
@@ -101,6 +103,10 @@ export default function Record() {
           <View style={styles.speedContainer}>
             <Text style={styles.speedText}>{speed}</Text>
             <Text style={styles.mphText}> mph</Text>
+          </View>
+          <View style={styles.timerDateContainer}>
+            <Text style={styles.recordingTimeText}>{new Date(time).toTimeString().substring(0,8)}</Text>
+            <Text style={styles.recordingDateText}>{new Date(time).toDateString()}</Text>
           </View>
         </View>
         <TouchableOpacity
@@ -197,5 +203,31 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     backgroundColor: "white",
     padding: 15,
+  },
+  recordingTimeText: {
+    paddingTop: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    fontSize: 18,
+    fontFamily: 'Nunito-Bold',
+    marginLeft: "auto",
+  },
+  recordingDateText: {
+    paddingTop: 1,
+    paddingLeft: 10,
+    paddingRight: 10,
+    fontSize: 10,
+    fontFamily: 'Nunito-Light',
+    textAlign: 'right',
+    marginLeft: "auto",
+  },
+  timerDateContainer: {
+    backgroundColor: "white",
+    opacity: 0.75,
+    borderRadius: 10,
+    flexDirection: "column",
+    marginLeft: "auto",
+    height: 60,
+    marginTop: 'auto'
   },
 });

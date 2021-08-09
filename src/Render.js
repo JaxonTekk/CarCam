@@ -8,6 +8,7 @@ import TabNavigator from "./components/TabNavigator.js";
 export default function Render() {
   const [loaded, setLoaded] = useState(false);
   const [videoCount, setVideoCount] = useState(0);
+  const [uri, setUri] = useState(undefined);
 
   const read = async () => {
     const videoCount = await AsyncStorage.getItem("@videoCount");
@@ -33,7 +34,7 @@ export default function Render() {
   }
 
   return (
-    <Context.Provider value={{ videoCount, setVideoCount }}>
+    <Context.Provider value={{ videoCount, setVideoCount, uri, setUri }}>
       <TabNavigator />
     </Context.Provider>
   );

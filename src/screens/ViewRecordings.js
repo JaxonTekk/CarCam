@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   SafeAreaView,
   Text,
@@ -12,9 +12,10 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { format, parseISO } from "date-fns";
+import Context from "../utils/Context.js";
 
-const Item = ({ date, uri }) => (
-  <TouchableOpacity style={styles.item}>
+const Item = ({ onPress, date, uri }) => (
+  <TouchableOpacity style={styles.item} onPress={onPress}>
     <Image
       style={{ height: 100, width: 150 }}
       source={{
@@ -31,7 +32,8 @@ const Item = ({ date, uri }) => (
   </TouchableOpacity>
 );
 
-export default function ViewRecordings() {
+export default function ViewRecordings({ navigation }) {
+  const { setUri } = useContext(Context);
   const [data, setData] = useState(undefined);
 
   const read = async () => {
@@ -39,7 +41,16 @@ export default function ViewRecordings() {
     if (data) setData(JSON.parse(data));
   };
 
-  const renderItem = ({ item }) => <Item date={item.date} uri={item.uri} />;
+  const renderItem = ({ item }) => (
+    <Item
+      onPress={() => {
+        setUri(item.uri);
+        navigation.navigate("View Video");
+      }}
+      date={item.date}
+      uri={item.uri}
+    />
+  );
 
   useEffect(() => {
     read();

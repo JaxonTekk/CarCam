@@ -8,6 +8,7 @@ import Header from "../components/Header";
 import Statistics from "../components/Statistics";
 import Features from "../components/Features";
 import ViewRecordings from "./ViewRecordings";
+import ViewVideo from "./ViewVideo.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function HomeScreen({ navigation }) {
@@ -65,6 +66,7 @@ export default function Home() {
           },
         }}
       />
+      <Stack.Screen name="View Video" component={ViewVideo} />
     </Stack.Navigator>
   );
 }

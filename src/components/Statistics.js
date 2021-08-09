@@ -6,7 +6,7 @@ import Context from "../utils/Context.js";
 
 export default function Statistics() {
   const { videoCount } = useContext(Context);
-  const [memoryValue, setMemory] = useState(0);
+  const [memoryValue, setMemory] = useState(75);
   const [videos, setVideos] = useState(0);
 
   const [usedStorage, setUsedStorage] = useState(0);
@@ -35,7 +35,7 @@ export default function Statistics() {
       <AnimatedCircularProgress
         size={Dimensions.get("window").width / 1.6}
         width={13}
-        fill={parseInt(memoryValue)}
+        fill={memoryValue}
         backgroundWidth={6}
         rotation={(0, -360)}
         tintColor="#007F97"

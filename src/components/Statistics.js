@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as FileSystem from "expo-file-system"
+import * as FileSystem from "expo-file-system";
 
 export default function Statistics() {
   const [memoryValue, setMemory] = useState(0);
@@ -12,21 +12,30 @@ export default function Statistics() {
   const [availableStorage, setAvailableStorage] = useState(0);
 
   const read = async () => {
-    const videos = await AsyncStorage.getItem("@videoCount");
-    if (videos) setVideos(JSON.parse(videos));
+    try {
+      const videos = await AsyncStorage.getItem("@videoCount");
+      if (videos) setVideos(JSON.parse(videos));
+    } catch (error) {
+      console.log(error);
+    }
 
-    FileSystem.getFreeDiskStorageAsync().then(freeDiskStorage => {setUsedStorage(freeDiskStorage)})
-    FileSystem.getTotalDiskCapacityAsync().then(totalDiskCopacity => {setAvailableStorage(totalDiskCopacity)})
-    console.log("US " + usedStorage)
-    console.log("AS " + availableStorage)
+    FileSystem.getFreeDiskStorageAsync().then((freeDiskStorage) => {
+      setUsedStorage(freeDiskStorage);
+    });
+    FileSystem.getTotalDiskCapacityAsync().then((totalDiskCopacity) => {
+      setAvailableStorage(totalDiskCopacity);
+    });
+    console.log("US " + usedStorage);
+    console.log("AS " + availableStorage);
 
-    setMemory(((availableStorage-usedStorage)/availableStorage)*100)
-    console.log("P " + memoryValue)
+    setMemory(((availableStorage - usedStorage) / availableStorage) * 100);
+    console.log("P " + memoryValue);
   };
 
   useEffect(() => {
     read();
   }, []);
+
   return (
     <View>
       <AnimatedCircularProgress

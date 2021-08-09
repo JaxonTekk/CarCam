@@ -21,6 +21,23 @@ export default function Record() {
   const [recording, setRecording] = useState(false);
   const [speed, setSpeed] = useState(0.0);
 
+  const save = async (video) => {
+    try {
+      const videos = await AsyncStorage.getItem("@videos");
+      if (videos) {
+        const parsedVideos = JSON.parse(videos);
+        await AsyncStorage.setItem(
+          "@videos",
+          JSON.stringify([...parsedVideos, video.uri])
+        );
+      } else {
+        await AsyncStorage.setItem("@videos", JSON.stringify([video.uri]));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     Location.installWebGeolocationPolyfill();
     const interval = setInterval(() => {
@@ -88,18 +105,7 @@ export default function Record() {
           onPress={async () => {
             if (!recording) {
               setRecording(true);
-              let video = await camera.recordAsync();
-              console.log("video", video);
-              const videos = await AsyncStorage.getItem("@videos");
-              const parsedVideos = JSON.parse(videos);
-              if (parsedVideos) {
-                await AsyncStorage.setItem("@videos", [
-                  ...parsedVideos,
-                  video.uri,
-                ]);
-              } else {
-                await AsyncStorage.setItem("@videos", [video.uri]);
-              }
+              const video = await camera.recordAsync();
             } else {
               setRecording(false);
               camera.stopRecording();

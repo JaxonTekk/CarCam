@@ -23,17 +23,29 @@ export default function Settings() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    {label: 'MPH', value: 'mph'},
-    {label: 'KMH', value: 'kmh'}
+    { label: "MPH", value: "mph" },
+    { label: "KMH", value: "kmh" },
   ]);
 
   const read = async () => {
-    const settings = await AsyncStorage.getItem("@settings");
-    if (settings) {
-      const parsedSettings = JSON.parse(settings);
-      setMemoryValue(parsedSettings.memoryValue);
-      setMaxRecordingTime(parsedSettings.maxRecordingTime);
-      setSaveVideoToPhotoGallery(parsedSettings.saveVideoToPhotoGallery);
+    try {
+      const settings = await AsyncStorage.getItem("@settings");
+      if (settings) {
+        const parsedSettings = JSON.parse(settings);
+        setMemoryValue(parsedSettings.memoryValue);
+        setMaxRecordingTime(parsedSettings.maxRecordingTime);
+        setSaveVideoToPhotoGallery(parsedSettings.saveVideoToPhotoGallery);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const save = async (settings) => {
+    try {
+      await AsyncStorage.setItem("@settings", JSON.stringify(settings));
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -41,14 +53,14 @@ export default function Settings() {
     read();
   }, []);
 
-  const toggleSaveVideoToPhotoGallery = async () => {
+  const toggleSaveVideoToPhotoGallery = () => {
     setSaveVideoToPhotoGallery(!saveVideoToPhotoGallery);
     const settings = {
       memoryValue: memoryValue,
       maxRecordingTime: maxRecordingTime,
       saveVideoToPhotoGallery: saveVideoToPhotoGallery,
     };
-    await AsyncStorage.setItem("@settings", JSON.stringify(settings));
+    save(settings);
   };
 
   return (
@@ -69,14 +81,14 @@ export default function Settings() {
             style={{ marginLeft: 10, marginRight: 20 }}
             maximumValue={1024}
             step={1}
-            onValueChange={async (memoryValue) => {
+            onValueChange={(memoryValue) => {
               setMemoryValue(memoryValue);
               const settings = {
                 memoryValue: memoryValue,
                 maxRecordingTime: maxRecordingTime,
                 saveVideoToPhotoGallery: saveVideoToPhotoGallery,
               };
-              await AsyncStorage.setItem("@settings", JSON.stringify(settings));
+              save(settings);
             }}
             minimumTrackTintColor="#007F97"
           />
@@ -98,14 +110,14 @@ export default function Settings() {
             style={{ marginLeft: 10, marginRight: 20 }}
             maximumValue={1000}
             step={1}
-            onValueChange={async (maxRecordingTime) => {
+            onValueChange={(maxRecordingTime) => {
               setMaxRecordingTime(maxRecordingTime);
               const settings = {
                 memoryValue: memoryValue,
                 maxRecordingTime: maxRecordingTime,
                 saveVideoToPhotoGallery: saveVideoToPhotoGallery,
               };
-              await AsyncStorage.setItem("@settings", JSON.stringify(settings));
+              save(settings);
             }}
             minimumTrackTintColor="#007F97"
           />
@@ -122,9 +134,7 @@ export default function Settings() {
           />
         </View>
         <View style={styles.selectionContainer}>
-          <Text style={styles.selectionContainerText}>
-            Speed Meter Unit
-          </Text>
+          <Text style={styles.selectionContainerText}>Speed Meter Unit</Text>
           <DropDownPicker
             open={open}
             value={value}
@@ -135,7 +145,7 @@ export default function Settings() {
             style={styles.dropdownStyle}
             textStyle={{
               color: "#007F97",
-              borderColor: "#007F97"
+              borderColor: "#007F97",
             }}
           />
         </View>
@@ -210,6 +220,6 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width / 1.2,
     marginLeft: 10,
     marginBottom: 10,
-    borderColor: "#007F97"
-  }
+    borderColor: "#007F97",
+  },
 });

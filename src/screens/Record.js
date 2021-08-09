@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,8 +13,10 @@ import { Camera } from "expo-camera";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import * as Location from "expo-location";
+import Context from "../utils/Context.js";
 
 export default function Record() {
+  const { videoCount, setVideoCount } = useContext(Context);
   const [camera, setCamera] = useState(undefined);
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
@@ -22,19 +24,17 @@ export default function Record() {
   const [speed, setSpeed] = useState(0.0);
 
   const save = async (video) => {
-    try {
-      const videos = await AsyncStorage.getItem("@videos");
-      if (videos) {
-        const parsedVideos = JSON.parse(videos);
-        await AsyncStorage.setItem(
-          "@videos",
-          JSON.stringify([...parsedVideos, video.uri])
-        );
-      } else {
-        await AsyncStorage.setItem("@videos", JSON.stringify([video.uri]));
-      }
-    } catch (error) {
-      console.log(error);
+    await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount + 1));
+    setVideoCount(videoCount + 1);
+    const videos = await AsyncStorage.getItem("@videos");
+    if (videos) {
+      const parsedVideos = JSON.parse(videos);
+      await AsyncStorage.setItem(
+        "@videos",
+        JSON.stringify([...parsedVideos, video.uri])
+      );
+    } else {
+      await AsyncStorage.setItem("@videos", JSON.stringify([video.uri]));
     }
   };
 

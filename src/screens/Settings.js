@@ -28,25 +28,17 @@ export default function Settings() {
   ]);
 
   const read = async () => {
-    try {
-      const settings = await AsyncStorage.getItem("@settings");
-      if (settings) {
-        const parsedSettings = JSON.parse(settings);
-        setMemoryValue(parsedSettings.memoryValue);
-        setMaxRecordingTime(parsedSettings.maxRecordingTime);
-        setSaveVideoToPhotoGallery(parsedSettings.saveVideoToPhotoGallery);
-      }
-    } catch (error) {
-      console.log(error);
+    const settings = await AsyncStorage.getItem("@settings");
+    if (settings) {
+      const parsedSettings = JSON.parse(settings);
+      setMemoryValue(parsedSettings.memoryValue);
+      setMaxRecordingTime(parsedSettings.maxRecordingTime);
+      setSaveVideoToPhotoGallery(parsedSettings.saveVideoToPhotoGallery);
     }
   };
 
   const save = async (settings) => {
-    try {
-      await AsyncStorage.setItem("@settings", JSON.stringify(settings));
-    } catch (error) {
-      console.log(error);
-    }
+    await AsyncStorage.setItem("@settings", JSON.stringify(settings));
   };
 
   useEffect(() => {

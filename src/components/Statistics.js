@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as FileSystem from "expo-file-system";
+import Context from "../utils/Context.js";
 
 export default function Statistics() {
+  const { videoCount } = useContext(Context);
   const [memoryValue, setMemory] = useState(0);
   const [videos, setVideos] = useState(0);
 
@@ -12,13 +13,6 @@ export default function Statistics() {
   const [availableStorage, setAvailableStorage] = useState(0);
 
   const read = async () => {
-    try {
-      const videos = await AsyncStorage.getItem("@videoCount");
-      if (videos) setVideos(JSON.parse(videos));
-    } catch (error) {
-      console.log(error);
-    }
-
     FileSystem.getFreeDiskStorageAsync().then((freeDiskStorage) => {
       setUsedStorage(freeDiskStorage);
     });
@@ -49,7 +43,7 @@ export default function Statistics() {
         backgroundColor="#D7EAEE"
         style={styles.circle1}
       />
-      <Text style={styles.largeText}>{videos}</Text>
+      <Text style={styles.largeText}>{videoCount}</Text>
       <Text style={styles.smallText}>Videos</Text>
     </View>
   );

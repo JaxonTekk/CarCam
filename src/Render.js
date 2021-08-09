@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { ActivityIndicator } from "react-native";
-import { useFonts } from "expo-font";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Font from "expo-font";
+import Context from "./utils/Context.js";
 import TabNavigator from "./components/TabNavigator.js";
 
 export default function Render() {
   const [loaded, setLoaded] = useState(false);
+  const [videoCount, setVideoCount] = useState(0);
+
+  const read = async () => {
+    const videoCount = await AsyncStorage.getItem("@videoCount");
+    if (videoCount) setVideoCount(JSON.parse(videoCount));
+  };
 
   const loadFonts = async () => {
     await Font.loadAsync({
@@ -16,6 +23,7 @@ export default function Render() {
   };
 
   useEffect(() => {
+    read();
     loadFonts();
   }, []);
 
@@ -23,5 +31,9 @@ export default function Render() {
     return <ActivityIndicator />;
   }
 
-  return <TabNavigator />;
+  return (
+    <Context.Provider value={{ videoCount, setVideoCount }}>
+      <TabNavigator />
+    </Context.Provider>
+  );
 }

@@ -106,6 +106,7 @@ export default function Record() {
             if (!recording) {
               setRecording(true);
               const video = await camera.recordAsync();
+              save(video);
             } else {
               setRecording(false);
               camera.stopRecording();

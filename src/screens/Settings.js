@@ -59,6 +59,7 @@ export default function Settings() {
       memoryValue: memoryValue,
       maxRecordingTime: maxRecordingTime,
       saveVideoToPhotoGallery: saveVideoToPhotoGallery,
+      value: value,
     };
     save(settings);
   };
@@ -81,12 +82,14 @@ export default function Settings() {
             style={{ marginLeft: 10, marginRight: 20 }}
             maximumValue={1024}
             step={1}
+            value={memoryValue}
             onValueChange={(memoryValue) => {
               setMemoryValue(memoryValue);
               const settings = {
                 memoryValue: memoryValue,
                 maxRecordingTime: maxRecordingTime,
                 saveVideoToPhotoGallery: saveVideoToPhotoGallery,
+                value: value,
               };
               save(settings);
             }}
@@ -110,12 +113,14 @@ export default function Settings() {
             style={{ marginLeft: 10, marginRight: 20 }}
             maximumValue={1000}
             step={1}
+            value={maxRecordingTime}
             onValueChange={(maxRecordingTime) => {
               setMaxRecordingTime(maxRecordingTime);
               const settings = {
                 memoryValue: memoryValue,
                 maxRecordingTime: maxRecordingTime,
                 saveVideoToPhotoGallery: saveVideoToPhotoGallery,
+                value: value,
               };
               save(settings);
             }}
@@ -130,6 +135,7 @@ export default function Settings() {
             value={saveVideoToPhotoGallery}
             style={styles.switch}
             color="#007F97"
+            value={saveVideoToPhotoGallery}
             onValueChange={toggleSaveVideoToPhotoGallery}
           />
         </View>
@@ -138,6 +144,15 @@ export default function Settings() {
           <DropDownPicker
             open={open}
             value={value}
+            onChangeValue={() => {
+              const settings = {
+                memoryValue: memoryValue,
+                maxRecordingTime: maxRecordingTime,
+                saveVideoToPhotoGallery: saveVideoToPhotoGallery,
+                value: value,
+              };
+              save(settings);
+            }}
             items={items}
             setOpen={setOpen}
             setValue={setValue}

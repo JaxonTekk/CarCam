@@ -15,8 +15,16 @@ import { format, parseISO } from "date-fns";
 
 const Item = ({ date, uri }) => (
   <TouchableOpacity style={styles.item}>
-    <View style={{ flexDirection: "column" }}>
-      <Text>{format(parseISO(date), "MM/dd/yyyy p")}</Text>
+    <Image
+      style={{ height: 100, width: 150 }}
+      source={{
+        uri: "https://media.discordapp.net/attachments/781252457027731506/874327452468518933/unknown.png",
+      }}
+    />
+    <View style={{ flexDirection: "column", marginLeft: 5 }}>
+      <Text style={{ fontSize: 15, fontFamily: "Nunito-Bold" }}>
+        {format(parseISO(date), "MM/dd/yyyy p")}
+      </Text>
       <Text>05:22 min</Text>
       <Text>1.6 GB</Text>
     </View>
@@ -64,11 +72,14 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 23,
     fontFamily: "Nunito-Bold",
+    marginBottom: 10,
   },
 
   item: {
-    backgroundColor: "#D3D3D3",
+    flexDirection: "row",
+    backgroundColor: "#E5E5E5",
     marginHorizontal: 15,
     padding: 5,
+    marginBottom: 10,
   },
 });

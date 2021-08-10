@@ -23,6 +23,8 @@ export default function Record() {
   const [recording, setRecording] = useState(false);
   const [speed, setSpeed] = useState(0.0);
   const [time, setTime] = useState(0);
+  const [startTime, setStartTime] = useState(0);
+  const [parsedTimeValue, setParsedTimeValue] = useState("00:00:00")
 
   const save = async (video) => {
     await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount + 1));
@@ -53,6 +55,13 @@ export default function Record() {
         { enableHighAccuracy: true, timeout: 0, maximumAge: Number.MAX_VALUE }
       );
       setTime(Date.now());
+      if(recording) {
+        setParsedTimeValue(timeToString(Date.now() - startTime));
+        console.log("value " + recording)
+      }
+      else {
+        console.log("hi")
+      }
     }, 1000);
   }, []);
 
@@ -96,7 +105,7 @@ export default function Record() {
               size={Dimensions.get("window").width / 25}
               style={styles.recordIcon}
             />
-            <Text style={styles.timerText}>00:00:00</Text>
+            <Text style={styles.timerText}>{parsedTimeValue}</Text>
           </View>
         </View>
         <View style={styles.bottomContainer}>
@@ -114,11 +123,14 @@ export default function Record() {
           onPress={async () => {
             if (!recording) {
               setRecording(true);
+              setStartTime(Date.now())
               const video = await camera.recordAsync();
               save(video);
             } else {
               setRecording(false);
               camera.stopRecording();
+              setParsedTimeValue("00:00:00");
+              setStartTime(0);
             }
           }}
         >
@@ -127,6 +139,23 @@ export default function Record() {
       </Camera>
     </View>
   );
+}
+
+function timeToString(time) {
+  let diffInHrs = time / 3600000;
+  let hh = Math.floor(diffInHrs);
+
+  let diffInMin = (diffInHrs - hh) * 60;
+  let mm = Math.floor(diffInMin);
+
+  let diffInSec = (diffInMin - mm) * 60;
+  let ss = Math.floor(diffInSec);
+
+  let formattedHH = hh.toString().padStart(2, "0");
+  let formattedMM = mm.toString().padStart(2, "0");
+  let formattedSS = ss.toString().padStart(2, "0");
+
+  return `${formattedHH}:${formattedMM}:${formattedSS}`;
 }
 
 const styles = StyleSheet.create({

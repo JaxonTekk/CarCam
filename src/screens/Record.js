@@ -13,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import * as Location from "expo-location";
 import Context from "../utils/Context.js";
+import * as VideoThumbnails from "expo-video-thumbnails";
 
 export default function Record() {
   const { videoCount, setVideoCount } = useContext(Context);
@@ -30,7 +31,7 @@ export default function Record() {
   const [m, setM] = useState(0);
   const [h, setH] = useState(0);
 
-  const save = async (video) => {
+  const save = async (video, thumbnail) => {
     await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount + 1));
     setVideoCount(videoCount + 1);
     const videos = await AsyncStorage.getItem("@videos");
@@ -38,14 +39,26 @@ export default function Record() {
       const parsedVideos = JSON.parse(videos);
       await AsyncStorage.setItem(
         "@videos",
-        JSON.stringify([...parsedVideos, { date: new Date(), uri: video.uri }])
+        JSON.stringify([
+          ...parsedVideos,
+          { date: new Date(), uri: video.uri, thumbnail: thumbnail },
+        ])
       );
     } else {
       await AsyncStorage.setItem(
         "@videos",
-        JSON.stringify([{ date: new Date(), uri: video.uri }])
+        JSON.stringify([
+          { date: new Date(), uri: video.uri, thumbnail: thumbnail },
+        ])
       );
     }
+  };
+
+  const thumbnail = async (video) => {
+    const { uri } = await VideoThumbnails.getThumbnailAsync(video.uri, {
+      time: 0,
+    });
+    return uri;
   };
 
   useEffect(() => {
@@ -145,8 +158,10 @@ export default function Record() {
                 );
               }, 1000);
               const video = await camera.recordAsync();
+              console.log(video);
               clearInterval(interval);
-              save(video);
+              const thumbnail = thumbnail(video);
+              save(video, thumbnail);
             } else {
               setRecording(false);
               camera.stopRecording();

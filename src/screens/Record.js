@@ -58,6 +58,7 @@ export default function Record() {
         (error) => Alert.alert(error.message),
         { enableHighAccuracy: true, timeout: 0, maximumAge: Number.MAX_VALUE }
       );
+      setTime(Date.now());
     }, 1000);
   }, []);
 

@@ -24,7 +24,7 @@ export default function Record() {
   const [speed, setSpeed] = useState(0.0);
   const [time, setTime] = useState(0);
   const [startTime, setStartTime] = useState(0);
-  const [parsedTimeValue, setParsedTimeValue] = useState("00:00:00")
+  const [parsedTimeValue, setParsedTimeValue] = useState("00:00:00");
 
   const save = async (video) => {
     await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount + 1));
@@ -46,21 +46,20 @@ export default function Record() {
 
   useEffect(() => {
     Location.installWebGeolocationPolyfill();
-    const interval = setInterval(() => {
+    setInterval(() => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setSpeed(Math.round((position.coords.speed * 2.236936)));
+          setSpeed(Math.round(position.coords.speed * 2.236936));
         },
         (error) => Alert.alert(error.message),
         { enableHighAccuracy: true, timeout: 0, maximumAge: Number.MAX_VALUE }
       );
       setTime(Date.now());
-      if(recording) {
+      if (recording) {
         setParsedTimeValue(timeToString(Date.now() - startTime));
-        console.log("value " + recording)
-      }
-      else {
-        console.log("hi")
+        console.log("value " + recording);
+      } else {
+        console.log("hi");
       }
     }, 1000);
   }, []);
@@ -114,8 +113,12 @@ export default function Record() {
             <Text style={styles.mphText}> mph</Text>
           </View>
           <View style={styles.timerDateContainer}>
-            <Text style={styles.recordingTimeText}>{new Date(time).toTimeString().substring(0,8)}</Text>
-            <Text style={styles.recordingDateText}>{new Date(time).toDateString()}</Text>
+            <Text style={styles.recordingTimeText}>
+              {new Date(time).toTimeString().substring(0, 8)}
+            </Text>
+            <Text style={styles.recordingDateText}>
+              {new Date(time).toDateString()}
+            </Text>
           </View>
         </View>
         <TouchableOpacity
@@ -123,7 +126,7 @@ export default function Record() {
           onPress={async () => {
             if (!recording) {
               setRecording(true);
-              setStartTime(Date.now())
+              setStartTime(Date.now());
               const video = await camera.recordAsync();
               save(video);
             } else {
@@ -238,7 +241,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     fontSize: 18,
-    fontFamily: 'Nunito-Bold',
+    fontFamily: "Nunito-Bold",
     marginLeft: "auto",
   },
   recordingDateText: {
@@ -246,8 +249,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     fontSize: 10,
-    fontFamily: 'Nunito-Light',
-    textAlign: 'right',
+    fontFamily: "Nunito-Light",
+    textAlign: "right",
     marginLeft: "auto",
   },
   timerDateContainer: {
@@ -257,6 +260,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginLeft: "auto",
     height: 60,
-    marginTop: 'auto'
+    marginTop: "auto",
   },
 });

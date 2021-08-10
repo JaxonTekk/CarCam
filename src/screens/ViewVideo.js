@@ -1,10 +1,16 @@
-import React, { useRef, useState } from "react";
-import { View, Button } from "react-native";
+import React, { useContext, useRef, useState, useEffect } from "react";
+import { View, Button, StyleSheet } from "react-native";
 import { Video, AVPlaybackStatus } from "expo-av";
+import Context from "../utils/Context.js";
 
-export default function ViewVideo({ uri }) {
+export default function ViewVideo() {
+  const { uri } = useContext(Context);
   const video = useRef(null);
   const [status, setStatus] = useState({});
+
+  useEffect(() => {
+    console.log(uri);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -32,3 +38,10 @@ export default function ViewVideo({ uri }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  video: {
+    height: 500,
+    width: 500,
+  },
+});

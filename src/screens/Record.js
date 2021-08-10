@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
-  SafeAreaView,
   TouchableOpacity,
   View,
   Platform,
@@ -25,6 +24,11 @@ export default function Record() {
   const [time, setTime] = useState(0);
   const [startTime, setStartTime] = useState(0);
   const [parsedTimeValue, setParsedTimeValue] = useState("00:00:00");
+
+  //timer
+  const [s, setS] = useState(0);
+  const [m, setM] = useState(0);
+  const [h, setH] = useState(0);
 
   const save = async (video) => {
     await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount + 1));
@@ -54,13 +58,6 @@ export default function Record() {
         (error) => Alert.alert(error.message),
         { enableHighAccuracy: true, timeout: 0, maximumAge: Number.MAX_VALUE }
       );
-      setTime(Date.now());
-      if (recording) {
-        setParsedTimeValue(timeToString(Date.now() - startTime));
-        console.log("value " + recording);
-      } else {
-        console.log("hi");
-      }
     }, 1000);
   }, []);
 
@@ -127,7 +124,28 @@ export default function Record() {
             if (!recording) {
               setRecording(true);
               setStartTime(Date.now());
+              const interval = setInterval(() => {
+                if (s === 59) {
+                  if (m === 59) {
+                    setH(h + 1);
+                    setM(0);
+                  } else {
+                    setM(m + 1);
+                  }
+                  setS(0);
+                } else {
+                  setS(s + 1);
+                }
+                setParsedTimeValue(
+                  (h.toString().length === 2 ? h : "0" + h) +
+                    ":" +
+                    (m.toString().length === 2 ? m : "0" + m) +
+                    ":" +
+                    (s.toString().length === 2 ? s : "0" + s)
+                );
+              }, 1000);
               const video = await camera.recordAsync();
+              clearInterval(interval);
               save(video);
             } else {
               setRecording(false);

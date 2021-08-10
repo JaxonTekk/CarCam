@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState, useEffect } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { View, Button, StyleSheet } from "react-native";
 import { Video, AVPlaybackStatus } from "expo-av";
 import Context from "../utils/Context.js";
@@ -7,10 +7,6 @@ export default function ViewVideo() {
   const { uri } = useContext(Context);
   const video = useRef(null);
   const [status, setStatus] = useState({});
-
-  useEffect(() => {
-    console.log(uri);
-  }, []);
 
   return (
     <View style={styles.container}>

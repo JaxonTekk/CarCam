@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  SafeAreaView,
-  Text,
-  ScrollView,
-  StyleSheet,
-  Dimensions,
-  View,
-} from "react-native";
+import { Text, ScrollView, StyleSheet, Dimensions, View } from "react-native";
 import { Switch } from "react-native-paper";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Slider from "@react-native-community/slider";

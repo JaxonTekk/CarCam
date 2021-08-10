@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
 import {
-  SafeAreaView,
   Text,
   View,
   StyleSheet,
@@ -59,7 +58,7 @@ export default function ViewRecordings({ navigation }) {
   if (!data) return <ActivityIndicator />;
 
   return (
-    <SafeAreaView>
+    <View>
       <View style={styles.container}>
         <Text style={styles.header}>2021</Text>
         <FlatList
@@ -68,7 +67,7 @@ export default function ViewRecordings({ navigation }) {
           keyExtractor={(item, index) => item + index}
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

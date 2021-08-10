@@ -1,17 +1,19 @@
 import React from "react";
 import { useState } from "react";
-import { SafeAreaView, StyleSheet, View, Text, Dimensions } from "react-native";
+import { StyleSheet, View, Text, Dimensions } from "react-native";
+import Constants from "expo-constants";
 
 export default function Header() {
   return (
-    <SafeAreaView style={styles.rectangle}>
+    <View style={styles.container}>
       <Text style={styles.largeText}>HOME</Text>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  rectangle: {
+  container: {
+    paddingTop: Constants.statusBarHeight,
     backgroundColor: "white",
     flexDirection: "column",
     justifyContent: "space-between",
@@ -26,6 +28,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+
   largeText: {
     marginBottom: 10,
     fontSize: 26,

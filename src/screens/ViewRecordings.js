@@ -13,12 +13,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { format, parseISO } from "date-fns";
 import Context from "../utils/Context.js";
 
-const Item = ({ onPress, date, uri }) => (
+const Item = ({ onPress, date, thumbnail }) => (
   <TouchableOpacity style={styles.item} onPress={onPress}>
     <Image
       style={{ height: 100, width: 150 }}
       source={{
-        uri: "https://media.discordapp.net/attachments/781252457027731506/874327452468518933/unknown.png",
+        uri: thumbnail,
       }}
     />
     <View style={{ flexDirection: "column", marginLeft: 5 }}>
@@ -47,7 +47,7 @@ export default function ViewRecordings({ navigation }) {
         navigation.navigate("View Video");
       }}
       date={item.date}
-      uri={item.uri}
+      thumbnail={item.thumbnail}
     />
   );
 

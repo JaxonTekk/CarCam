@@ -14,6 +14,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import * as Location from "expo-location";
 import Context from "../utils/Context.js";
 import { Stopwatch, Timer } from "react-native-stopwatch-timer"
+import * as VideoThumbnails from "expo-video-thumbnails";
 
 export default function Record() {
   const { videoCount, setVideoCount } = useContext(Context);
@@ -38,7 +39,7 @@ export default function Record() {
     setStopwatchReset(true);
   };
 
-  const save = async (video) => {
+  const save = async (video, thumbnail) => {
     await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount + 1));
     setVideoCount(videoCount + 1);
     const videos = await AsyncStorage.getItem("@videos");
@@ -46,14 +47,26 @@ export default function Record() {
       const parsedVideos = JSON.parse(videos);
       await AsyncStorage.setItem(
         "@videos",
-        JSON.stringify([...parsedVideos, { date: new Date(), uri: video.uri }])
+        JSON.stringify([
+          ...parsedVideos,
+          { date: new Date(), uri: video.uri, thumbnail: thumbnail },
+        ])
       );
     } else {
       await AsyncStorage.setItem(
         "@videos",
-        JSON.stringify([{ date: new Date(), uri: video.uri }])
+        JSON.stringify([
+          { date: new Date(), uri: video.uri, thumbnail: thumbnail },
+        ])
       );
     }
+  };
+
+  const thumbnail = async (video, ms) => {
+    const { uri } = await VideoThumbnails.getThumbnailAsync(video.uri, {
+      time: Math.floor(Math.random() * ms),
+    });
+    return uri;
   };
 
   useEffect(() => {
@@ -134,7 +147,8 @@ export default function Record() {
               setRecording(true);
               toggleStopWatch();
               const video = await camera.recordAsync();
-              save(video);
+              const thumbnail = thumbnail(video, ms);
+              save(video, thumbnail);
             } else {
               setRecording(false);
               toggleStopWatch();
@@ -150,22 +164,6 @@ export default function Record() {
   );
 }
 
-function timeToString(time) {
-  let diffInHrs = time / 3600000;
-  let hh = Math.floor(diffInHrs);
-
-  let diffInMin = (diffInHrs - hh) * 60;
-  let mm = Math.floor(diffInMin);
-
-  let diffInSec = (diffInMin - mm) * 60;
-  let ss = Math.floor(diffInSec);
-
-  let formattedHH = hh.toString().padStart(2, "0");
-  let formattedMM = mm.toString().padStart(2, "0");
-  let formattedSS = ss.toString().padStart(2, "0");
-
-  return `${formattedHH}:${formattedMM}:${formattedSS}`;
-}
 const styles = StyleSheet.create({
   container: {
     flex: 1,

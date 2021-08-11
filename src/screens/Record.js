@@ -13,7 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import * as Location from "expo-location";
 import Context from "../utils/Context.js";
-import { Stopwatch, Timer } from "react-native-stopwatch-timer"
+import { Stopwatch, Timer } from "react-native-stopwatch-timer";
 import * as VideoThumbnails from "expo-video-thumbnails";
 
 export default function Record() {
@@ -32,12 +32,12 @@ export default function Record() {
   function toggleStopWatch() {
     setStopwatchStart(!stopwatchStart);
     setStopwatchReset(false);
-  };
+  }
 
   function resetStopWatch() {
     setStopwatchStart(false);
     setStopwatchReset(true);
-  };
+  }
 
   const save = async (video, thumbnail) => {
     await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount + 1));
@@ -123,7 +123,11 @@ export default function Record() {
               size={Dimensions.get("window").width / 25}
               style={styles.recordIcon}
             />
-            <Stopwatch options={timerOptions} start={stopwatchStart} reset={stopwatchReset}/>
+            <Stopwatch
+              options={timerOptions}
+              start={stopwatchStart}
+              reset={stopwatchReset}
+            />
           </View>
         </View>
         <View style={styles.bottomContainer}>
@@ -146,7 +150,13 @@ export default function Record() {
             if (!recording) {
               setRecording(true);
               toggleStopWatch();
+              const [ms, setMs] = useState(0);
+              const interval = setInterval(() => {
+                setMs((ms) => ms + 1000);
+              }, 1000);
               const video = await camera.recordAsync();
+              clearInterval(interval);
+              console.log("Done recording");
               const thumbnail = thumbnail(video, ms);
               save(video, thumbnail);
             } else {
@@ -264,12 +274,12 @@ const styles = StyleSheet.create({
 
 const timerOptions = {
   container: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 10,
   },
   text: {
     fontFamily: "Nunito-Bold",
     fontSize: Dimensions.get("window").width / 30,
     margin: 6,
-  }
-}
+  },
+};

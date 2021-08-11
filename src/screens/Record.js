@@ -13,7 +13,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import * as Location from "expo-location";
 import Context from "../utils/Context.js";
-import { Stopwatch, Timer } from "react-native-stopwatch-timer";
 import * as VideoThumbnails from "expo-video-thumbnails";
 
 export default function Record() {
@@ -24,20 +23,14 @@ export default function Record() {
   const [recording, setRecording] = useState(false);
   const [speed, setSpeed] = useState(0.0);
   const [time, setTime] = useState(0);
+  const [startTime, setStartTime] = useState(0);
+  const [parsedTimeValue, setParsedTimeValue] = useState("00:00:00");
 
-  // Timer
-  const [stopwatchStart, setStopwatchStart] = useState(false);
-  const [stopwatchReset, setStopwatchReset] = useState(false);
-
-  function toggleStopWatch() {
-    setStopwatchStart(!stopwatchStart);
-    setStopwatchReset(false);
-  }
-
-  function resetStopWatch() {
-    setStopwatchStart(false);
-    setStopwatchReset(true);
-  }
+  //timer
+  const [s, setS] = useState(0);
+  const [m, setM] = useState(0);
+  const [h, setH] = useState(0);
+  const [ms, setMs] = useState(0);
 
   const save = async (video, thumbnail) => {
     await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount + 1));
@@ -62,13 +55,6 @@ export default function Record() {
     }
   };
 
-  const thumbnail = async (video, ms) => {
-    const { uri } = await VideoThumbnails.getThumbnailAsync(video.uri, {
-      time: Math.floor(Math.random() * ms),
-    });
-    return uri;
-  };
-
   useEffect(() => {
     Location.installWebGeolocationPolyfill();
     setInterval(() => {
@@ -79,7 +65,6 @@ export default function Record() {
         (error) => Alert.alert(error.message),
         { enableHighAccuracy: true, timeout: 0, maximumAge: Number.MAX_VALUE }
       );
-      setTime(Date.now());
     }, 1000);
   }, []);
 
@@ -123,11 +108,7 @@ export default function Record() {
               size={Dimensions.get("window").width / 25}
               style={styles.recordIcon}
             />
-            <Stopwatch
-              options={timerOptions}
-              start={stopwatchStart}
-              reset={stopwatchReset}
-            />
+            <Text style={styles.timerText}>{parsedTimeValue}</Text>
           </View>
         </View>
         <View style={styles.bottomContainer}>
@@ -149,21 +130,25 @@ export default function Record() {
           onPress={async () => {
             if (!recording) {
               setRecording(true);
-              toggleStopWatch();
-              const [ms, setMs] = useState(0);
+              setStartTime(Date.now());
               const interval = setInterval(() => {
                 setMs((ms) => ms + 1000);
               }, 1000);
               const video = await camera.recordAsync();
               clearInterval(interval);
-              console.log("Done recording");
-              const thumbnail = thumbnail(video, ms);
-              save(video, thumbnail);
+              const { uri } = await VideoThumbnails.getThumbnailAsync(
+                video.uri,
+                {
+                  time: Math.floor(Math.random() * ms),
+                }
+              );
+              save(video, uri);
             } else {
               setRecording(false);
-              toggleStopWatch();
-              resetStopWatch();
               camera.stopRecording();
+              setParsedTimeValue("00:00:00");
+              setStartTime(0);
+              setMs(0);
             }
           }}
         >
@@ -172,6 +157,23 @@ export default function Record() {
       </Camera>
     </View>
   );
+}
+
+function timeToString(time) {
+  let diffInHrs = time / 3600000;
+  let hh = Math.floor(diffInHrs);
+
+  let diffInMin = (diffInHrs - hh) * 60;
+  let mm = Math.floor(diffInMin);
+
+  let diffInSec = (diffInMin - mm) * 60;
+  let ss = Math.floor(diffInSec);
+
+  let formattedHH = hh.toString().padStart(2, "0");
+  let formattedMM = mm.toString().padStart(2, "0");
+  let formattedSS = ss.toString().padStart(2, "0");
+
+  return `${formattedHH}:${formattedMM}:${formattedSS}`;
 }
 
 const styles = StyleSheet.create({
@@ -220,6 +222,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flexDirection: "row",
     marginLeft: "auto",
+  },
+  timerText: {
+    fontSize: Dimensions.get("window").width / 30,
+    margin: 6,
+    fontFamily: "Nunito-Bold",
   },
   speedContainer: {
     flexDirection: "row",
@@ -271,15 +278,3 @@ const styles = StyleSheet.create({
     marginTop: "auto",
   },
 });
-
-const timerOptions = {
-  container: {
-    backgroundColor: "white",
-    borderRadius: 10,
-  },
-  text: {
-    fontFamily: "Nunito-Bold",
-    fontSize: Dimensions.get("window").width / 30,
-    margin: 6,
-  },
-};

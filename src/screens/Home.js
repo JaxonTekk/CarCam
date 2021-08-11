@@ -66,7 +66,36 @@ export default function Home() {
           },
         }}
       />
-      <Stack.Screen name="View Video" component={ViewVideo} />
+      <Stack.Screen 
+        name="View Video" 
+        component={ViewVideo}
+        options={{
+          title: " ",
+          headerStyle: {
+            backgroundColor: "#FFFFFF",
+            borderBottomLeftRadius: 30,
+            borderBottomRightRadius: 30,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.5,
+            shadowRadius: 3.84,
+            elevation: 5,
+            height: Dimensions.get("window").height / 9,
+          },
+          headerTitleStyle: {
+            fontSize: 25,
+            fontFamily: "Nunito-Bold",
+          },
+          headerBackTitle: " ",
+          headerTintColor: "#000000",
+          headerBackTitleStyle: {
+            fontSize: 30,
+            marginLeft: 10,
+          },
+        }} />
     </Stack.Navigator>
   );
 }

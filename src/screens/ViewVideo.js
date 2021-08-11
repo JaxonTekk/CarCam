@@ -1,17 +1,20 @@
 import React, { useContext, useRef, useState } from "react";
-import { View, Button, StyleSheet, Dimensions, Text, TouchableOpacity } from "react-native";
+import { View, Button, StyleSheet, Dimensions, Text, TouchableOpacity, Alert } from "react-native";
 import { Video, AVPlaybackStatus } from "expo-av";
 import Context from "../utils/Context.js";
 
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
+import * as MediaLibrary from 'expo-media-library';
+import { Camera } from "expo-camera";
+
 export default function ViewVideo() {
   const { uri } = useContext(Context);
 
   const video = useRef(null);
   const [status, setStatus] = useState({});
-  console.log(uri);
+
   return (
     <View style={styles.container}>
       <View style={styles.mainFrame}>
@@ -29,19 +32,11 @@ export default function ViewVideo() {
         />
       </View>
       <View style={styles.bottomFrame}>
-        <TouchableOpacity style={styles.buttonBackground}>
+        <TouchableOpacity style={styles.buttonBackground} onPress={() => {
+          MediaLibrary.saveToLibraryAsync(uri).then(() => {Alert.alert("Success","Successfully saved the video to your Photo Library!")}).catch((error) => {Alert.alert("Error", "Unable to save the video to your photo library! Error: " + error)})
+        }}>
           <View style={styles.buttonBackground}>
             <FontAwesome5 name="download" size={30} style={styles.icons} />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonBackground}>
-          <View style={styles.buttonBackground}>
-            <MaterialIcons name="mail" size={30} style={styles.icons} />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonBackground}>
-          <View style={styles.buttonBackground}>
-            <MaterialIcons name="message" size={30} style={styles.icons} />
           </View>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonBackground}>
@@ -83,8 +78,8 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "space-between",
     marginTop: 50,
-    marginLeft: 60,
-    marginRight: 60,
+    marginLeft: 100,
+    marginRight: 100,
     alignItems: "center"
   },
   

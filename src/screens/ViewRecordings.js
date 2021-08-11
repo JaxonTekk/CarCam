@@ -10,23 +10,23 @@ import {
   ActivityIndicator,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { format, parseISO } from "date-fns";
+import { format, parseISO, setDate } from "date-fns";
 import Context from "../utils/Context.js";
 
 const Item = ({ onPress, date, thumbnail }) => (
   <TouchableOpacity style={styles.item} onPress={onPress}>
     <Image
-      style={{ height: 100, width: 150 }}
+      style={{ height: 100, width: 150, borderRadius: 7 }}
       source={{
         uri: thumbnail,
       }}
     />
-    <View style={{ flexDirection: "column", marginLeft: 5 }}>
-      <Text style={{ fontSize: 15, fontFamily: "Nunito-Bold" }}>
+    <View style={{ flexDirection: "column", marginLeft: 10 }}>
+      <Text style={styles.dateText}>
         {format(parseISO(date), "MM/dd/yyyy p")}
       </Text>
-      <Text>05:22 min</Text>
-      <Text>1.6 GB</Text>
+      <Text style={styles.infoText}>05:22 min</Text>
+      <Text style={styles.infoText}>1.6 GB</Text>
     </View>
   </TouchableOpacity>
 );
@@ -92,4 +92,14 @@ const styles = StyleSheet.create({
     padding: 5,
     marginBottom: 10,
   },
+
+  dateText: {
+    fontFamily: "Nunito-Bold",
+    fontSize: 18
+  },
+
+  infoText: {
+    fontFamily: "Nunito-Light",
+    fontSize: 15
+  }
 });

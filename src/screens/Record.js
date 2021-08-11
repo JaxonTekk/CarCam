@@ -30,6 +30,7 @@ export default function Record() {
   const [s, setS] = useState(0);
   const [m, setM] = useState(0);
   const [h, setH] = useState(0);
+  const [ms, setMs] = useState(0);
 
   const save = async (video, thumbnail) => {
     await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount + 1));
@@ -54,9 +55,9 @@ export default function Record() {
     }
   };
 
-  const thumbnail = async (video) => {
+  const thumbnail = async (video, ms) => {
     const { uri } = await VideoThumbnails.getThumbnailAsync(video.uri, {
-      time: 0,
+      time: Math.floor(Math.random() * ms),
     });
     return uri;
   };
@@ -138,35 +139,36 @@ export default function Record() {
               setRecording(true);
               setStartTime(Date.now());
               const interval = setInterval(() => {
-                if (s === 59) {
-                  if (m === 59) {
-                    setH(h + 1);
-                    setM(0);
-                  } else {
-                    setM(m + 1);
-                  }
-                  setS(0);
-                } else {
-                  setS(s + 1);
-                }
-                setParsedTimeValue(
-                  (h.toString().length === 2 ? h : "0" + h) +
-                    ":" +
-                    (m.toString().length === 2 ? m : "0" + m) +
-                    ":" +
-                    (s.toString().length === 2 ? s : "0" + s)
-                );
+                setMs((ms) => ms + 1000);
+                // if (s === 59) {
+                //   if (m === 59) {
+                //     setH(h + 1);
+                //     setM(0);
+                //   } else {
+                //     setM(m + 1);
+                //   }
+                //   setS(0);
+                // } else {
+                //   setS(s + 1);
+                // }
+                // setParsedTimeValue(
+                //   (h.toString().length === 2 ? h : "0" + h) +
+                //     ":" +
+                //     (m.toString().length === 2 ? m : "0" + m) +
+                //     ":" +
+                //     (s.toString().length === 2 ? s : "0" + s)
+                // );
               }, 1000);
               const video = await camera.recordAsync();
-              console.log(video);
               clearInterval(interval);
-              const thumbnail = thumbnail(video);
+              const thumbnail = thumbnail(video, ms);
               save(video, thumbnail);
             } else {
               setRecording(false);
               camera.stopRecording();
               setParsedTimeValue("00:00:00");
               setStartTime(0);
+              setMs(0);
             }
           }}
         >

@@ -117,7 +117,7 @@ export default function Record() {
               size={Dimensions.get("window").width / 25}
               style={styles.recordIcon}
             />
-            <Stopwatch options={timerOptions} start={stopwatchStart} reset={stopwatchReset} getMsecs={(time) => stopwatchTime = time}/>
+            <Stopwatch options={timerOptions} start={stopwatchStart} reset={stopwatchReset} getMsecs={(time) => stopwatchTime = time/1000}/>
           </View>
         </View>
         <View style={styles.bottomContainer}>
@@ -149,7 +149,6 @@ export default function Record() {
               );
               save(video, uri);
             } else {
-              console.log(stopwatchTime);
               setRecording(false);
               toggleStopWatch();
               resetStopWatch();

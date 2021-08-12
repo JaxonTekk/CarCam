@@ -1,19 +1,36 @@
 import React, { useContext, useRef, useState } from "react";
-import { View, Button, StyleSheet, Dimensions, Text, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  Button,
+  StyleSheet,
+  Dimensions,
+  Text,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { Video, AVPlaybackStatus } from "expo-av";
 import Context from "../utils/Context.js";
-
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-
-import * as MediaLibrary from 'expo-media-library';
+import * as MediaLibrary from "expo-media-library";
 import { Camera } from "expo-camera";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function ViewVideo() {
-  const { uri } = useContext(Context);
-
+export default function ViewVideo({ navigation }) {
+  const { uri, setUri, videos, setVideos, videoCount, setVideoCount } =
+    useContext(Context);
   const video = useRef(null);
   const [status, setStatus] = useState({});
+
+  const del = async () => {
+    const cpy = videos.filter((v) => v.uri !== uri);
+    setVideos(cpy);
+    setVideoCount(videoCount - 1);
+    setUri(undefined);
+    await AsyncStorage.setItem("@videos", JSON.stringify(cpy));
+    await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount - 1));
+    navigation.navigate("View Recordings");
+  };
 
   return (
     <View style={styles.container}>
@@ -32,14 +49,30 @@ export default function ViewVideo() {
         />
       </View>
       <View style={styles.bottomFrame}>
-        <TouchableOpacity style={styles.buttonBackground} onPress={() => {
-          MediaLibrary.saveToLibraryAsync(uri).then(() => {Alert.alert("Success","Successfully saved the video to your Photo Library!")}).catch((error) => {Alert.alert("Error", "Unable to save the video to your photo library! Error: " + error)})
-        }}>
+        <TouchableOpacity
+          style={styles.buttonBackground}
+          onPress={() => {
+            MediaLibrary.saveToLibraryAsync(uri)
+              .then(() => {
+                Alert.alert(
+                  "Success",
+                  "Successfully saved the video to your Photo Library!"
+                );
+              })
+              .catch((error) => {
+                Alert.alert(
+                  "Error",
+                  "Unable to save the video to your photo library! Error: " +
+                    error
+                );
+              });
+          }}
+        >
           <View style={styles.buttonBackground}>
             <FontAwesome5 name="download" size={30} style={styles.icons} />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonBackground}>
+        <TouchableOpacity style={styles.buttonBackground} onPress={del}>
           <View style={styles.buttonBackground1}>
             <FontAwesome5 name="trash" size={30} style={styles.icons} />
           </View>
@@ -56,7 +89,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   video: {
-    height: Dimensions.get("window").height/2.6,
+    height: Dimensions.get("window").height / 2.6,
     width: Dimensions.get("window").width - 40,
     marginTop: 10,
     marginLeft: 20,
@@ -70,9 +103,9 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontFamily: "Nunito-Bold",
     textAlign: "center",
-    marginTop: Dimensions.get("window").height/7,
+    marginTop: Dimensions.get("window").height / 7,
   },
-  
+
   bottomFrame: {
     flexDirection: "row",
     display: "flex",
@@ -80,9 +113,9 @@ const styles = StyleSheet.create({
     marginTop: 50,
     marginLeft: 100,
     marginRight: 100,
-    alignItems: "center"
+    alignItems: "center",
   },
-  
+
   icons: {
     padding: 13,
     color: "white",
@@ -96,5 +129,5 @@ const styles = StyleSheet.create({
   buttonBackground1: {
     borderRadius: 10000000,
     backgroundColor: "#007F97",
-  }
+  },
 });

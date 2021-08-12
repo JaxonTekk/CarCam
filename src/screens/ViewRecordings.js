@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginRight: Dimensions.get("window").height / 55,
     flexDirection: "column",
-    marginBottom: 83
   },
 
   header: {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Text, ScrollView, StyleSheet, Dimensions, View } from "react-native";
-import { Switch } from "react-native-paper";
+import { Text, ScrollView, StyleSheet, Dimensions, View, Alert } from "react-native";
+import { Switch, Button } from "react-native-paper";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Slider from "@react-native-community/slider";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -80,6 +80,31 @@ export default function Settings() {
             }}
             minimumTrackTintColor="#007F97"
           />
+        </View>
+        <View style={styles.selectionContainerRow}>
+          <Text style={styles.selectionContainerText}>
+            Delete All Data
+          </Text>
+          <Button mode="contained" color="#DF4F97" style={styles.settingsButton} onPress={async () => {
+            Alert.alert(
+              "Delete all Data",
+              "Are you sure that you want to delete ALL data within this app? This action CANNOT be undone.",
+              [
+                {
+                  text: "Yes",
+                  onPress: () => {
+                    AsyncStorage.clear().then(() => Alert.alert("Success", "Successfully deleted all data within this app!"))
+                  }
+                },
+                {
+                  text: "Cancel",
+                  style: "cancel"
+                },
+              ]
+            );
+          }}>
+            Delete All Data
+          </Button>
         </View>
         <View>
           <MaterialIcons
@@ -221,5 +246,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginBottom: 10,
     borderColor: "#007F97",
+  },
+  settingsButton: {
+    marginLeft: 10,
+    marginRight: 30,
+    marginTop: 5,
+    marginBottom: 5,
+    backgroundColor: "white"
   },
 });

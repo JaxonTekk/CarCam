@@ -107,7 +107,38 @@ export default function Record() {
               <MaterialIcons
                 name="flip-camera-ios"
                 size={Dimensions.get("window").width / 25}
+                color="#F86A6A"
                 style={styles.cameraIcon}
+              />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+             onPress={async () => {
+              if (!recording) {
+                setRecording(true);
+                toggleStopWatch();
+                const video = await camera.recordAsync();
+                const { uri } = await VideoThumbnails.getThumbnailAsync(
+                  video.uri,
+                  {
+                    time: Math.floor(Math.random() * stopwatchTime),
+                  }
+                );
+                save(video, uri);
+              } else {
+                setRecording(false);
+                toggleStopWatch();
+                resetStopWatch();
+                camera.stopRecording();
+              }
+            }}
+            style={{marginLeft: 10}}
+          >
+            <View style={styles.buttonBackground}>
+              <MaterialIcons
+                name="fiber-smart-record"
+                size={Dimensions.get("window").width / 25}
+                style={styles.cameraIcon1}
               />
             </View>
           </TouchableOpacity>
@@ -134,30 +165,6 @@ export default function Record() {
             </Text>
           </View>
         </View>
-        <TouchableOpacity
-          style={styles.recBtn}
-          onPress={async () => {
-            if (!recording) {
-              setRecording(true);
-              toggleStopWatch();
-              const video = await camera.recordAsync();
-              const { uri } = await VideoThumbnails.getThumbnailAsync(
-                video.uri,
-                {
-                  time: Math.floor(Math.random() * stopwatchTime),
-                }
-              );
-              save(video, uri);
-            } else {
-              setRecording(false);
-              toggleStopWatch();
-              resetStopWatch();
-              camera.stopRecording();
-            }
-          }}
-        >
-          <Text>Record</Text>
-        </TouchableOpacity>
       </Camera>
     </View>
   );
@@ -192,6 +199,10 @@ const styles = StyleSheet.create({
   },
   cameraIcon: {
     color: "black",
+    margin: 8,
+  },
+  cameraIcon1: {
+    color: "#F86A6A",
     margin: 8,
   },
   recordIcon: {

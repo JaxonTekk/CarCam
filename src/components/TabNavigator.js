@@ -1,8 +1,9 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Feather from "react-native-vector-icons/Feather";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import Ocitcons from "react-native-vector-icons/Octicons";
 import Home from "../screens/Home.js";
 import Record from "../screens/Record.js";
@@ -18,10 +19,10 @@ export default function TabNaivgator() {
         initialRouteName="Home"
         tabBarOptions={
           {
-            // activeBackgroundColor: "#4c3f77",
-            // inactiveBackgroundColor: "#4c3f77",
-            // activeTintColor: "white",
-            // inactiveTintColor: "white",
+            activeBackgroundColor: "#4c3f77",
+            inactiveBackgroundColor: "#FFFFFF",
+            activeTintColor: "white",
+            inactiveTintColor: "#4c3f77",
           }
         }
       >
@@ -31,7 +32,7 @@ export default function TabNaivgator() {
           options={{
             tabBarLabel: "Home",
             tabBarIcon: ({ color }) => (
-              <Ocitcons name="file-directory" color={color} />
+              <Feather name="home" color={color} size={25} />
             ),
           }}
           listeners={({ navigation }) => ({tabPress: (e) => { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT) }})}
@@ -42,7 +43,7 @@ export default function TabNaivgator() {
           options={{
             tabBarLabel: "Record",
             tabBarIcon: ({ color }) => (
-              <Ocitcons name="file-directory" color={color} />
+              <MaterialCommunityIcons name="record-circle-outline" color={color} size={25} />
             ),
           }}
           listeners={({ navigation }) => ({tabPress: (e) => { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE) }})}
@@ -53,7 +54,7 @@ export default function TabNaivgator() {
           options={{
             tabBarLabel: "Settings",
             tabBarIcon: ({ color }) => (
-              <Ocitcons name="file-directory" color={color} />
+              <SimpleLineIcons name="settings" color={color} size={25} />
             ),
           }}
           listeners={({ navigation }) => ({tabPress: (e) => { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT) }})}

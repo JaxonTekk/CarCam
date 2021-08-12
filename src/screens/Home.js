@@ -17,10 +17,6 @@ function HomeScreen({ navigation }) {
       <Header />
       <Statistics />
       <Features navigation={navigation} />
-      <Button
-        title="Clear Data"
-        onPress={async () => await AsyncStorage.clear()}
-      />
     </View>
   );
 }

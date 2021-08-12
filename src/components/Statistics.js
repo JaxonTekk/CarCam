@@ -13,6 +13,8 @@ export default function Statistics() {
   const [usedStorage, setUsedStorage] = useState(0);
   const [availableStorage, setAvailableStorage] = useState(0);
 
+  const [screenWidth, setScreenWidth] = useState(0);
+
   const read = async () => {
     await FileSystem.getFreeDiskStorageAsync().then((freeDiskStorage) =>
       setUsedStorage(freeDiskStorage)
@@ -28,12 +30,13 @@ export default function Statistics() {
 
   useEffect(() => {
     read();
+    setScreenWidth(Dimensions.get("window").width)
   }, [memoryValue, usedStorage, availableStorage]);
 
   return (
     <View style={{ alignItems: "center", marginTop: 30 }}>
       <AnimatedCircularProgress
-        size={Dimensions.get("window").width / 1.6}
+        size={screenWidth / 1.6}
         width={13}
         fill={memoryValue}
         backgroundWidth={6}

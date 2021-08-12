@@ -32,12 +32,11 @@ const Item = ({ onPress, date, thumbnail }) => (
 );
 
 export default function ViewRecordings({ navigation }) {
-  const { setUri } = useContext(Context);
-  const [data, setData] = useState(undefined);
+  const { setUri, videos, setVideos } = useContext(Context);
 
   const read = async () => {
     const data = await AsyncStorage.getItem("@videos");
-    if (data) setData(JSON.parse(data));
+    if (data) setVideos(JSON.parse(data));
   };
 
   const renderItem = ({ item }) => (
@@ -55,14 +54,14 @@ export default function ViewRecordings({ navigation }) {
     read();
   }, []);
 
-  if (!data) return <ActivityIndicator />;
+  if (!videos) return <ActivityIndicator />;
 
   return (
     <View>
       <View style={styles.container}>
         <Text style={styles.header}>2021</Text>
         <FlatList
-          data={data}
+          data={videos}
           renderItem={renderItem}
           keyExtractor={(item, index) => item + index}
         />
@@ -95,11 +94,11 @@ const styles = StyleSheet.create({
 
   dateText: {
     fontFamily: "Nunito-Bold",
-    fontSize: 18
+    fontSize: 18,
   },
 
   infoText: {
     fontFamily: "Nunito-Light",
-    fontSize: 15
-  }
+    fontSize: 15,
+  },
 });

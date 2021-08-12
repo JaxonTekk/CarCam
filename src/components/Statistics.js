@@ -1,8 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
-import { AnimatedCircularProgress } from "react-native-circular-progress";
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import * as FileSystem from "expo-file-system";
 import Context from "../utils/Context.js";
+import { memo } from "react/cjs/react.production.min";
 
 export default function Statistics() {
   const { videoCount } = useContext(Context);
@@ -13,59 +14,60 @@ export default function Statistics() {
   const [availableStorage, setAvailableStorage] = useState(0);
 
   const read = async () => {
-    FileSystem.getFreeDiskStorageAsync().then((freeDiskStorage) => {
+    await FileSystem.getFreeDiskStorageAsync().then((freeDiskStorage) => {
       setUsedStorage(freeDiskStorage);
     });
-    FileSystem.getTotalDiskCapacityAsync().then((totalDiskCopacity) => {
+    await FileSystem.getTotalDiskCapacityAsync().then((totalDiskCopacity) => {
       setAvailableStorage(totalDiskCopacity);
     });
-    console.log("US " + usedStorage);
-    console.log("AS " + availableStorage);
 
-    setMemory(((availableStorage - usedStorage) / availableStorage) * 100);
-    console.log("P " + memoryValue);
+    await setMemory(((availableStorage - usedStorage) / availableStorage) * 100);
+    await console.log(memoryValue)
   };
 
   useEffect(() => {
     read();
   }, []);
 
+  setTimeout( () => {
+    setMemory(memoryValue)
+  }, 10000);
+
   return (
-    <View>
-      <AnimatedCircularProgress
-        size={Dimensions.get("window").width / 1.6}
-        width={13}
-        fill={memoryValue}
-        backgroundWidth={6}
-        rotation={(0, -360)}
-        tintColor="#007F97"
-        lineCap="round"
-        backgroundColor="#D7EAEE"
-        style={styles.circle1}
-      />
-      <Text style={styles.largeText}>{videoCount}</Text>
-      <Text style={styles.smallText}>Videos</Text>
+  <View style={{alignItems: "center", marginTop: 30}}>
+    <AnimatedCircularProgress
+      size={Dimensions.get("window").width / 1.6}
+      width={13}
+      fill={memoryValue}
+      backgroundWidth={6}
+      rotation={(0, -360)}
+      tintColor="#007F97"
+      lineCap="round"
+      backgroundColor="#D7EAEE">
+      {
+        (fill) => (
+          <View>
+            <Text style={styles.largeText}>{videoCount}</Text>
+            <Text style={styles.smallText}>{memoryValue}</Text>
+          </View>
+        )
+      }
+     </AnimatedCircularProgress>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  circle1: {
-    marginTop: 30,
-    alignItems: "center",
-  },
   largeText: {
-    position: "absolute",
-    marginTop: Dimensions.get("window").width / 1.6 / 2 - 30,
-    marginLeft: Dimensions.get("window").width / 1.6 / 2 + 20,
     fontSize: 100,
     color: "#051126",
+    textAlign: "center",
+    fontFamily: "Nunito-Regular"
   },
   smallText: {
-    position: "absolute",
-    marginTop: Dimensions.get("window").width / 1.6 / 2 + 75,
-    marginLeft: Dimensions.get("window").width / 1.6 / 2 + 45,
     fontSize: 20,
     color: "#A4BCBC",
+    textAlign: "center",
+    fontFamily: "Nunito-Light"
   },
 });

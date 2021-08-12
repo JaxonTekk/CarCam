@@ -17,24 +17,18 @@ export default function Statistics() {
     await FileSystem.getFreeDiskStorageAsync().then((freeDiskStorage) =>
       setUsedStorage(freeDiskStorage)
     );
-    await FileSystem.getTotalDiskCapacityAsync().then((totalDiskCopacity) =>
-      setAvailableStorage(totalDiskCopacity)
-    );
-    setMemoryValue(
-      Math.floor(((availableStorage - usedStorage) / availableStorage) * 100)
-    );
-    console.log(memoryValue);
+    await FileSystem.getTotalDiskCapacityAsync().then((totalDiskCopacity) => {
+      setAvailableStorage(totalDiskCopacity);
+      setMemoryValue(
+        Math.floor(((availableStorage - usedStorage) / availableStorage) * 100)
+      );
+      console.log(memoryValue);
+      });
   };
 
   useEffect(() => {
     read();
-  }, []);
-
-  setTimeout(() => {
-    setMemory(memoryValue);
-  }, 10000);
-
-  if (!memoryValue) return <Text>Loading</Text>;
+  }, [memoryValue, usedStorage, availableStorage]);
 
   return (
     <View style={{ alignItems: "center", marginTop: 30 }}>
@@ -51,7 +45,7 @@ export default function Statistics() {
         {(fill) => (
           <View>
             <Text style={styles.largeText}>{videoCount}</Text>
-            <Text style={styles.smallText}>{memoryValue}</Text>
+            <Text style={styles.smallText}>Videos</Text>
           </View>
         )}
       </AnimatedCircularProgress>

@@ -41,6 +41,7 @@ export default function Statistics() {
         tintColor="#007F97"
         lineCap="round"
         backgroundColor="#D7EAEE"
+        style={styles.progressBar}
       >
         {(fill) => (
           <View>
@@ -59,11 +60,25 @@ const styles = StyleSheet.create({
     color: "#051126",
     textAlign: "center",
     fontFamily: "Nunito-Regular",
+    shadowOpacity: 0,
+    elevation: 0,
   },
   smallText: {
     fontSize: 20,
     color: "#A4BCBC",
     textAlign: "center",
     fontFamily: "Nunito-Light",
+    shadowOpacity: 0,
+    elevation: 0,
+  },
+  progressBar: {
+    shadowColor: "#999999",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.8,
+    elevation: 10,
   },
 });

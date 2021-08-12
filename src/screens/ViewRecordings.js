@@ -64,6 +64,7 @@ export default function ViewRecordings({ navigation }) {
           data={videos}
           renderItem={renderItem}
           keyExtractor={(item, index) => item + index}
+          style={{marginBottom: 83}}
         />
       </View>
     </View>

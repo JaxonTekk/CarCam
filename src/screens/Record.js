@@ -41,7 +41,7 @@ export default function Record() {
     setStopwatchReset(true);
   }
 
-  const save = async (video, thumbnail, size) => {
+  const save = async (video, thumbnail, size, duration) => {
     await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount + 1));
     setVideoCount(videoCount + 1);
     const videos = await AsyncStorage.getItem("@videos");
@@ -56,6 +56,7 @@ export default function Record() {
             uri: video.uri,
             thumbnail: thumbnail,
             size: size,
+            duration: duration,
           },
         ])
       );
@@ -68,6 +69,7 @@ export default function Record() {
             uri: video.uri,
             thumbnail: thumbnail,
             size: size,
+            duration: duration,
           },
         ])
       );
@@ -136,7 +138,7 @@ export default function Record() {
                   }
                 );
                 const { size } = await FileSystem.getInfoAsync(video.uri);
-                save(video, uri, size);
+                save(video, uri, size, stopwatchTime);
               } else {
                 setRecording(false);
                 toggleStopWatch();

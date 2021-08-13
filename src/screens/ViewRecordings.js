@@ -13,7 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { format, parseISO } from "date-fns";
 import Context from "../utils/Context.js";
 
-const Item = ({ onPress, date, thumbnail, size }) => (
+const Item = ({ onPress, date, thumbnail, size, duration }) => (
   <TouchableOpacity style={styles.item} onPress={onPress}>
     <Image
       style={{ height: 100, width: 150, borderRadius: 7 }}
@@ -25,7 +25,7 @@ const Item = ({ onPress, date, thumbnail, size }) => (
       <Text style={styles.dateText}>
         {format(parseISO(date), "MM/dd/yyyy p")}
       </Text>
-      <Text style={styles.infoText}>05:22 min</Text>
+      <Text style={styles.infoText}>{duration}</Text>
       <Text style={styles.infoText}>{size}</Text>
     </View>
   </TouchableOpacity>
@@ -48,6 +48,7 @@ export default function ViewRecordings({ navigation }) {
       date={item.date}
       thumbnail={item.thumbnail}
       size={item.size}
+      duration={item.duration}
     />
   );
 

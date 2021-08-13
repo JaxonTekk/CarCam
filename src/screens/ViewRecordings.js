@@ -10,9 +10,8 @@ import {
   ActivityIndicator,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { format, parseISO, setDate } from "date-fns";
+import { format, parseISO } from "date-fns";
 import Context from "../utils/Context.js";
-import * as FileSystem from "expo-file-system";
 
 const Item = ({ onPress, date, thumbnail, size }) => (
   <TouchableOpacity style={styles.item} onPress={onPress}>
@@ -34,20 +33,13 @@ const Item = ({ onPress, date, thumbnail, size }) => (
 
 export default function ViewRecordings({ navigation }) {
   const { setUri, videos, setVideos } = useContext(Context);
-  const [fileSize, setFileSize] = useState([]);
 
   const read = async () => {
     const data = await AsyncStorage.getItem("@videos");
     if (data) setVideos(JSON.parse(data));
-
-    const jsonvalues = JSON.parse(data);
-    for( const videoObject of jsonvalues ) {
-      const dirInfo = await FileSystem.getInfoAsync(videoObject.uri);
-      fileSize.push(dirInfo.size);
-    }
   };
 
-  const renderItem = ({ item, index }) => (
+  const renderItem = ({ item }) => (
     <Item
       onPress={() => {
         setUri(item.uri);
@@ -55,13 +47,13 @@ export default function ViewRecordings({ navigation }) {
       }}
       date={item.date}
       thumbnail={item.thumbnail}
-      size={getReadableFileSizeString(fileSize[index])}
+      size={item.size}
     />
   );
 
   useEffect(() => {
     read();
-  }, [fileSize]);
+  }, []);
 
   if (!videos) return <ActivityIndicator />;
 
@@ -73,7 +65,7 @@ export default function ViewRecordings({ navigation }) {
           data={videos}
           renderItem={renderItem}
           keyExtractor={(item, index) => item + index}
-          style={{marginBottom: 83}}
+          style={{ marginBottom: 83 }}
         />
       </View>
     </View>
@@ -116,11 +108,11 @@ const styles = StyleSheet.create({
 // https://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable-string
 function getReadableFileSizeString(fileSizeInBytes) {
   var i = -1;
-  var byteUnits = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
+  var byteUnits = [" kB", " MB", " GB", " TB", "PB", "EB", "ZB", "YB"];
   do {
-      fileSizeInBytes = fileSizeInBytes / 1024;
-      i++;
+    fileSizeInBytes = fileSizeInBytes / 1024;
+    i++;
   } while (fileSizeInBytes > 1024);
 
   return Math.max(fileSizeInBytes, 0.1).toFixed(1) + byteUnits[i];
-};
+}

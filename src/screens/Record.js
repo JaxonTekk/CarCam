@@ -14,7 +14,8 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import * as Location from "expo-location";
 import Context from "../utils/Context.js";
 import * as VideoThumbnails from "expo-video-thumbnails";
-import { Stopwatch, Timer } from "react-native-stopwatch-timer"
+import { Stopwatch, Timer } from "react-native-stopwatch-timer";
+import * as FileSystem from "expo-file-system";
 
 export default function Record() {
   const { videoCount, setVideoCount } = useContext(Context);
@@ -33,14 +34,14 @@ export default function Record() {
   function toggleStopWatch() {
     setStopwatchStart(!stopwatchStart);
     setStopwatchReset(false);
-  };
+  }
 
   function resetStopWatch() {
     setStopwatchStart(false);
     setStopwatchReset(true);
-  };
+  }
 
-  const save = async (video, thumbnail) => {
+  const save = async (video, thumbnail, size) => {
     await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount + 1));
     setVideoCount(videoCount + 1);
     const videos = await AsyncStorage.getItem("@videos");
@@ -50,14 +51,24 @@ export default function Record() {
         "@videos",
         JSON.stringify([
           ...parsedVideos,
-          { date: new Date(), uri: video.uri, thumbnail: thumbnail },
+          {
+            date: new Date(),
+            uri: video.uri,
+            thumbnail: thumbnail,
+            size: size,
+          },
         ])
       );
     } else {
       await AsyncStorage.setItem(
         "@videos",
         JSON.stringify([
-          { date: new Date(), uri: video.uri, thumbnail: thumbnail },
+          {
+            date: new Date(),
+            uri: video.uri,
+            thumbnail: thumbnail,
+            size: size,
+          },
         ])
       );
     }
@@ -113,7 +124,7 @@ export default function Record() {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-             onPress={async () => {
+            onPress={async () => {
               if (!recording) {
                 setRecording(true);
                 toggleStopWatch();
@@ -124,7 +135,8 @@ export default function Record() {
                     time: Math.floor(Math.random() * stopwatchTime),
                   }
                 );
-                save(video, uri);
+                const { size } = await FileSystem.getInfoAsync(video.uri);
+                save(video, uri, size);
               } else {
                 setRecording(false);
                 toggleStopWatch();
@@ -132,7 +144,7 @@ export default function Record() {
                 camera.stopRecording();
               }
             }}
-            style={{marginLeft: 10}}
+            style={{ marginLeft: 10 }}
           >
             <View style={styles.buttonBackground}>
               <MaterialIcons
@@ -148,7 +160,12 @@ export default function Record() {
               size={Dimensions.get("window").width / 25}
               style={styles.recordIcon}
             />
-            <Stopwatch options={timerOptions} start={stopwatchStart} reset={stopwatchReset} getMsecs={(time) => stopwatchTime = time/1000}/>
+            <Stopwatch
+              options={timerOptions}
+              start={stopwatchStart}
+              reset={stopwatchReset}
+              getMsecs={(time) => (stopwatchTime = time / 1000)}
+            />
           </View>
         </View>
         <View style={styles.bottomContainer}>
@@ -279,12 +296,12 @@ const styles = StyleSheet.create({
 
 const timerOptions = {
   container: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 10,
   },
   text: {
     fontFamily: "Nunito-Bold",
     fontSize: Dimensions.get("window").width / 30,
     margin: 6,
-  }
-}
+  },
+};

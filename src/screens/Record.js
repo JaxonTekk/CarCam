@@ -16,6 +16,7 @@ import Context from "../utils/Context.js";
 import * as VideoThumbnails from "expo-video-thumbnails";
 import { Stopwatch, Timer } from "react-native-stopwatch-timer";
 import * as FileSystem from "expo-file-system";
+import * as MediaLibrary from "expo-media-library";
 
 export default function Record() {
   const { videoCount, setVideoCount } = useContext(Context);
@@ -25,6 +26,11 @@ export default function Record() {
   const [recording, setRecording] = useState(false);
   const [speed, setSpeed] = useState(0.0);
   const [time, setTime] = useState(0);
+
+  // Setting Value
+  const [settingSpeed, setSettingSpeed] = useState("mph");
+  const [maxRecordingTime, setMaxRecordingTime] = useState(15);
+  const [saveVideoToPhotoGallery, setSaveVideoToPhotoGallery] = useState(false);
 
   //timer
   const [stopwatchStart, setStopwatchStart] = useState(false);
@@ -40,6 +46,16 @@ export default function Record() {
     setStopwatchStart(false);
     setStopwatchReset(true);
   }
+
+  const read = async () => {
+    const settings = await AsyncStorage.getItem("@settings");
+    if (settings) {
+      const parsedSettings = JSON.parse(settings);
+      setSettingSpeed(parsedSettings.value);
+      setMaxRecordingTime(parsedSettings.maxRecordingTime);
+      setSaveVideoToPhotoGallery(parsedSettings.saveVideoToPhotoGallery);
+    }
+  };
 
   const save = async (video, thumbnail, size, duration) => {
     await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount + 1));
@@ -77,13 +93,19 @@ export default function Record() {
   };
 
   useEffect(() => {
+    read();
     Location.installWebGeolocationPolyfill();
     setInterval(() => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setSpeed(Math.round(position.coords.speed * 2.236936));
+          if( settingSpeed == "mph" ) {
+            setSpeed(Math.round(position.coords.speed * 2.236936));
+          }
+          else { 
+            setSpeed(Math.round(position.coords.speed * 3.6));
+          }
         },
-        (error) => Alert.alert(error.message),
+        (error) => console.log(error.message),
         { enableHighAccuracy: true, timeout: 0, maximumAge: Number.MAX_VALUE }
       );
       setTime(Date.now());
@@ -91,6 +113,7 @@ export default function Record() {
   }, []);
 
   useEffect(() => {
+
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
       setHasPermission(status === "granted");
@@ -137,7 +160,10 @@ export default function Record() {
                     time: Math.floor(Math.random() * stopwatchTime),
                   }
                 );
-                const { size } = await FileSystem.getInfoAsync(video.uri);
+                const { size } = await FileSystem.getInfoAsync(video.uri)
+                if( saveVideoToPhotoGallery ) {
+                  await MediaLibrary.saveToLibraryAsync(video.uri)
+                }
                 save(video, uri, size, stopwatchTime);
               } else {
                 setRecording(false);
@@ -166,14 +192,23 @@ export default function Record() {
               options={timerOptions}
               start={stopwatchStart}
               reset={stopwatchReset}
-              getMsecs={(time) => (stopwatchTime = time / 1000)}
+              getMsecs={(time) => {
+                stopwatchTime = time / 1000;
+                if( time > maxRecordingTime * 60000 ) {
+                  setRecording(false);
+                  toggleStopWatch();
+                  resetStopWatch();
+                  camera.stopRecording();
+                  Alert.alert("Warning", "This recording has stopped because it has reached the maximum Time Per Video value. To change this value, please go to the settings page.\n\nYou have set a maximum of " + maxRecordingTime + " min per video.");
+                }
+              }}
             />
           </View>
         </View>
         <View style={styles.bottomContainer}>
           <View style={styles.speedContainer}>
             <Text style={styles.speedText}>{speed}</Text>
-            <Text style={styles.mphText}> mph</Text>
+            <Text style={styles.mphText}> {settingSpeed}</Text>
           </View>
           <View style={styles.timerDateContainer}>
             <Text style={styles.recordingTimeText}>

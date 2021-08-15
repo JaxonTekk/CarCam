@@ -6,11 +6,13 @@ import Slider from "@react-native-community/slider";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DropDownPicker from "react-native-dropdown-picker";
+import { parse } from "react-native-svg";
 
 export default function Settings() {
   const [memoryValue, setMemoryValue] = useState(15);
   const [maxRecordingTime, setMaxRecordingTime] = useState(15);
   const [saveVideoToPhotoGallery, setSaveVideoToPhotoGallery] = useState(false);
+  const [speedItemValue, setSpeedItemValue] = useState("mph")
 
   // DropDown Storage Values
   const [open, setOpen] = useState(false);
@@ -27,6 +29,7 @@ export default function Settings() {
       setMemoryValue(parsedSettings.memoryValue);
       setMaxRecordingTime(parsedSettings.maxRecordingTime);
       setSaveVideoToPhotoGallery(parsedSettings.saveVideoToPhotoGallery);
+      setSpeedItemValue(parsedSettings.value);
     }
   };
 
@@ -153,19 +156,19 @@ export default function Settings() {
           <Text style={styles.selectionContainerText}>Speed Meter Unit</Text>
           <DropDownPicker
             open={open}
-            value={value}
+            value={speedItemValue}
             onChangeValue={() => {
               const settings = {
                 memoryValue: memoryValue,
                 maxRecordingTime: maxRecordingTime,
                 saveVideoToPhotoGallery: saveVideoToPhotoGallery,
-                value: value,
+                value: speedItemValue,
               };
               save(settings);
             }}
+            setValue={setSpeedItemValue}
             items={items}
             setOpen={setOpen}
-            setValue={setValue}
             setItems={setItems}
             style={styles.dropdownStyle}
             textStyle={{

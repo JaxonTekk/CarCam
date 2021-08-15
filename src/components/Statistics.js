@@ -4,6 +4,7 @@ import { AnimatedCircularProgress } from "react-native-circular-progress";
 import * as FileSystem from "expo-file-system";
 import Context from "../utils/Context.js";
 import { memo } from "react/cjs/react.production.min";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Statistics() {
   const { videoCount } = useContext(Context);
@@ -24,7 +25,6 @@ export default function Statistics() {
       setMemoryValue(
         Math.floor(((availableStorage - usedStorage) / availableStorage) * 100)
       );
-      console.log(memoryValue);
       });
   };
 

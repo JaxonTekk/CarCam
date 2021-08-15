@@ -26,7 +26,7 @@ const Item = ({ onPress, date, thumbnail, size, duration }) => (
         {format(parseISO(date), "MM/dd/yyyy p")}
       </Text>
       <Text style={styles.infoText}>{duration}</Text>
-      <Text style={styles.infoText}>{size}</Text>
+      <Text style={styles.infoText}>{getReadableFileSizeString(size)}</Text>
     </View>
   </TouchableOpacity>
 );

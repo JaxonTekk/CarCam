@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -17,6 +17,7 @@ import * as VideoThumbnails from "expo-video-thumbnails";
 import { Stopwatch, Timer } from "react-native-stopwatch-timer";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
+import useState from 'react-usestateref';
 
 export default function Record() {
   const { videoCount, setVideoCount } = useContext(Context);
@@ -35,7 +36,7 @@ export default function Record() {
   //timer
   const [stopwatchStart, setStopwatchStart] = useState(false);
   const [stopwatchReset, setStopwatchReset] = useState(false);
-  var stopwatchTime = 0;
+  const [stopwatchTime, setStopwatchTimer, counterRef] = useState("00:00:00");
 
   function toggleStopWatch() {
     setStopwatchStart(!stopwatchStart);
@@ -45,6 +46,15 @@ export default function Record() {
   function resetStopWatch() {
     setStopwatchStart(false);
     setStopwatchReset(true);
+  }
+
+  // https://stackoverflow.com/questions/9640266/convert-hhmmss-string-to-seconds-only-in-javascript
+  function convertTimeToS(timeValue) {
+    var a = timeValue.split(':'); // split it at the colons
+
+    // minutes are worth 60 seconds. Hours are worth 60 minutes.
+    var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]); 
+    return seconds
   }
 
   const read = async () => {
@@ -60,7 +70,10 @@ export default function Record() {
   const save = async (video, thumbnail, size, duration) => {
     await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount + 1));
     setVideoCount(videoCount + 1);
-    const videos = await AsyncStorage.getItem("@videos");
+    const videos = await AsyncStorage.getItem("@videos").then(() => {
+      toggleStopWatch();
+      resetStopWatch();
+    })
     if (videos) {
       const parsedVideos = JSON.parse(videos);
       await AsyncStorage.setItem(
@@ -72,7 +85,7 @@ export default function Record() {
             uri: video.uri,
             thumbnail: thumbnail,
             size: size,
-            duration: duration,
+            duration: counterRef.current,
           },
         ])
       );
@@ -85,7 +98,7 @@ export default function Record() {
             uri: video.uri,
             thumbnail: thumbnail,
             size: size,
-            duration: duration,
+            duration: counterRef.current,
           },
         ])
       );
@@ -118,7 +131,7 @@ export default function Record() {
       const { status } = await Camera.requestPermissionsAsync();
       setHasPermission(status === "granted");
     })();
-  }, []);
+  }, [stopwatchTime]);
 
   if (hasPermission === null) {
     return <View />;
@@ -157,7 +170,7 @@ export default function Record() {
                 const { uri } = await VideoThumbnails.getThumbnailAsync(
                   video.uri,
                   {
-                    time: Math.floor(Math.random() * stopwatchTime),
+                    time: convertTimeToS(stopwatchTime)/2,
                   }
                 );
                 const { size } = await FileSystem.getInfoAsync(video.uri)
@@ -167,8 +180,6 @@ export default function Record() {
                 save(video, uri, size, stopwatchTime);
               } else {
                 setRecording(false);
-                toggleStopWatch();
-                resetStopWatch();
                 camera.stopRecording();
               }
             }}
@@ -192,8 +203,12 @@ export default function Record() {
               options={timerOptions}
               start={stopwatchStart}
               reset={stopwatchReset}
+              getTime={(time) => {
+                setTimeout(() => {
+                  setStopwatchTimer(time);
+                }, 0)
+              }}
               getMsecs={(time) => {
-                stopwatchTime = time / 1000;
                 if( time > maxRecordingTime * 60000 ) {
                   setRecording(false);
                   toggleStopWatch();

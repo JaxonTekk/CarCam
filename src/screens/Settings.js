@@ -62,28 +62,6 @@ export default function Settings() {
           <FontAwesome5 name="memory" size={45} style={styles.memory} />
           <Text style={styles.categoryTitle}>MEMORY</Text>
         </View>
-        <View style={styles.selectionContainer}>
-          <Text style={styles.selectionContainerText}>
-            Storage Limit: {memoryValue} MB
-          </Text>
-          <Slider
-            style={{ marginLeft: 10, marginRight: 20 }}
-            maximumValue={1024}
-            step={1}
-            value={memoryValue}
-            onValueChange={(memoryValue) => {
-              setMemoryValue(memoryValue);
-              const settings = {
-                memoryValue: memoryValue,
-                maxRecordingTime: maxRecordingTime,
-                saveVideoToPhotoGallery: saveVideoToPhotoGallery,
-                value: value,
-              };
-              save(settings);
-            }}
-            minimumTrackTintColor="#007F97"
-          />
-        </View>
         <View style={styles.selectionContainerRow}>
           <Text style={styles.selectionContainerText}>
             Delete All Data

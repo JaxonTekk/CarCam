@@ -35,7 +35,7 @@ export default function TabNaivgator() {
               <Feather name="home" color={color} size={25} />
             ),
           }}
-          listeners={({ navigation }) => ({tabPress: (e) => { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT) }})}
+          listeners={({ navigation }) => ({tabPress: (e) => { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP) }})}
         />
         <Tab.Screen
           name="Record"
@@ -57,7 +57,7 @@ export default function TabNaivgator() {
               <SimpleLineIcons name="settings" color={color} size={25} />
             ),
           }}
-          listeners={({ navigation }) => ({tabPress: (e) => { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT) }})}
+          listeners={({ navigation }) => ({tabPress: (e) => { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP) }})}
         />
       </Tab.Navigator>
     </NavigationContainer>

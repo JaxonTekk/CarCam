@@ -1,34 +1,22 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export default function Features({ navigation }) {
   return (
-    <ScrollView
-      styles={{ flexDirection: "column", justifyContent: "space-between" }}
-    >
-      <TouchableOpacity>
+    <View styles={{ flexDirection: "column", justifyContent: "space-between" }}>
+      <TouchableOpacity onPress={() => navigation.navigate("View Recordings")}>
         <View style={styles.rectangle}>
           <MaterialIcons name="collections" size={60} style={styles.icons} />
-          <TouchableOpacity
-            onPress={() => navigation.navigate("View Recordings")}
-            style={{ flexDirection: "column", flexShrink: 1 }}
-          >
+          <View style={{ flexDirection: "column", flexShrink: 1 }}>
             <Text style={styles.largeText}>View Recordings</Text>
             <Text style={styles.smallText}>
               Manage all of your previous recordings
             </Text>
-          </TouchableOpacity>
+          </View>
         </View>
       </TouchableOpacity>
-    </ScrollView>
+    </View>
   );
 }
 

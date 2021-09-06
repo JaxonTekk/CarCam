@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, ScrollView, StyleSheet, Dimensions, View, Alert } from "react-native";
+import { Text, StyleSheet, Dimensions, View, Alert } from "react-native";
 import { Switch, Button } from "react-native-paper";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Slider from "@react-native-community/slider";
@@ -12,7 +12,7 @@ export default function Settings() {
   const [memoryValue, setMemoryValue] = useState(15);
   const [maxRecordingTime, setMaxRecordingTime] = useState(15);
   const [saveVideoToPhotoGallery, setSaveVideoToPhotoGallery] = useState(false);
-  const [speedItemValue, setSpeedItemValue] = useState("mph")
+  const [speedItemValue, setSpeedItemValue] = useState("MPH");
 
   // DropDown Storage Values
   const [open, setOpen] = useState(false);
@@ -42,13 +42,13 @@ export default function Settings() {
   }, []);
 
   const toggleSaveVideoToPhotoGallery = () => {
-    setSaveVideoToPhotoGallery(!saveVideoToPhotoGallery);
     const settings = {
       memoryValue: memoryValue,
       maxRecordingTime: maxRecordingTime,
-      saveVideoToPhotoGallery: saveVideoToPhotoGallery,
+      saveVideoToPhotoGallery: !saveVideoToPhotoGallery,
       value: value,
     };
+    setSaveVideoToPhotoGallery(!saveVideoToPhotoGallery);
     save(settings);
   };
 
@@ -57,16 +57,17 @@ export default function Settings() {
       <View style={styles.rectangle}>
         <Text style={styles.largeText}>SETTINGS</Text>
       </View>
-      <ScrollView>
-        <View>
-          <FontAwesome5 name="memory" size={45} style={styles.memory} />
-          <Text style={styles.categoryTitle}>MEMORY</Text>
-        </View>
-        <View style={styles.selectionContainerRow}>
-          <Text style={styles.selectionContainerText}>
-            Delete All Data
-          </Text>
-          <Button mode="contained" color="#DF4F97" style={styles.settingsButton} onPress={async () => {
+      <View>
+        <FontAwesome5 name="memory" size={45} style={styles.memory} />
+        <Text style={styles.categoryTitle}>MEMORY</Text>
+      </View>
+      <View style={styles.selectionContainerRow}>
+        <Text style={styles.selectionContainerText}>Delete All Data</Text>
+        <Button
+          mode="contained"
+          color="#DF4F97"
+          style={styles.settingsButton}
+          onPress={async () => {
             Alert.alert(
               "Delete all Data",
               "Are you sure that you want to delete ALL data within this app? This action CANNOT be undone.",
@@ -74,88 +75,93 @@ export default function Settings() {
                 {
                   text: "Yes",
                   onPress: () => {
-                    AsyncStorage.clear().then(() => Alert.alert("Success", "Successfully deleted all data within this app!"))
-                  }
+                    AsyncStorage.clear().then(() =>
+                      Alert.alert(
+                        "Success",
+                        "Successfully deleted all data within this app!"
+                      )
+                    );
+                  },
                 },
                 {
                   text: "Cancel",
-                  style: "cancel"
+                  style: "cancel",
                 },
               ]
             );
-          }}>
-            Delete All Data
-          </Button>
-        </View>
-        <View>
-          <MaterialIcons
-            name="fiber-smart-record"
-            size={45}
-            style={styles.recordIcon}
-            style={styles.memory}
-          />
-          <Text style={styles.categoryTitle}>RECORDING</Text>
-        </View>
-        <View style={styles.selectionContainer}>
-          <Text style={styles.selectionContainerText}>
-            Time Per Video: {maxRecordingTime} min
-          </Text>
-          <Slider
-            style={{ marginLeft: 10, marginRight: 20 }}
-            maximumValue={1000}
-            step={1}
-            value={maxRecordingTime}
-            onValueChange={(maxRecordingTime) => {
-              setMaxRecordingTime(maxRecordingTime);
-              const settings = {
-                memoryValue: memoryValue,
-                maxRecordingTime: maxRecordingTime,
-                saveVideoToPhotoGallery: saveVideoToPhotoGallery,
-                value: value,
-              };
-              save(settings);
-            }}
-            minimumTrackTintColor="#007F97"
-          />
-        </View>
-        <View style={styles.selectionContainerRow}>
-          <Text style={styles.selectionContainerText}>
-            Save Video to Photo Gallery
-          </Text>
-          <Switch
-            value={saveVideoToPhotoGallery}
-            style={styles.switch}
-            color="#007F97"
-            value={saveVideoToPhotoGallery}
-            onValueChange={toggleSaveVideoToPhotoGallery}
-          />
-        </View>
-        <View style={styles.selectionContainer}>
-          <Text style={styles.selectionContainerText}>Speed Meter Unit</Text>
-          <DropDownPicker
-            open={open}
-            value={speedItemValue}
-            onChangeValue={() => {
-              const settings = {
-                memoryValue: memoryValue,
-                maxRecordingTime: maxRecordingTime,
-                saveVideoToPhotoGallery: saveVideoToPhotoGallery,
-                value: speedItemValue,
-              };
-              save(settings);
-            }}
-            setValue={setSpeedItemValue}
-            items={items}
-            setOpen={setOpen}
-            setItems={setItems}
-            style={styles.dropdownStyle}
-            textStyle={{
-              color: "#007F97",
-              borderColor: "#007F97",
-            }}
-          />
-        </View>
-      </ScrollView>
+          }}
+        >
+          Delete All Data
+        </Button>
+      </View>
+      <View>
+        <MaterialIcons
+          name="fiber-smart-record"
+          size={45}
+          style={styles.recordIcon}
+          style={styles.memory}
+        />
+        <Text style={styles.categoryTitle}>RECORDING</Text>
+      </View>
+      <View style={styles.selectionContainer}>
+        <Text style={styles.selectionContainerText}>
+          Time Per Video: {maxRecordingTime} min
+        </Text>
+        <Slider
+          style={{ marginLeft: 10, marginRight: 20 }}
+          maximumValue={1000}
+          step={1}
+          value={maxRecordingTime}
+          onValueChange={(maxRecordingTime) => {
+            setMaxRecordingTime(maxRecordingTime);
+            const settings = {
+              memoryValue: memoryValue,
+              maxRecordingTime: maxRecordingTime,
+              saveVideoToPhotoGallery: saveVideoToPhotoGallery,
+              value: value,
+            };
+            save(settings);
+          }}
+          minimumTrackTintColor="#007F97"
+        />
+      </View>
+      <View style={styles.selectionContainerRow}>
+        <Text style={styles.selectionContainerText}>
+          Save Video to Photo Gallery
+        </Text>
+        <Switch
+          value={saveVideoToPhotoGallery}
+          style={styles.switch}
+          color="#007F97"
+          value={saveVideoToPhotoGallery}
+          onValueChange={toggleSaveVideoToPhotoGallery}
+        />
+      </View>
+      <View style={styles.selectionContainer}>
+        <Text style={styles.selectionContainerText}>Speed Meter Unit</Text>
+        <DropDownPicker
+          open={open}
+          value={speedItemValue}
+          onChangeValue={() => {
+            const settings = {
+              memoryValue: memoryValue,
+              maxRecordingTime: maxRecordingTime,
+              saveVideoToPhotoGallery: saveVideoToPhotoGallery,
+              value: speedItemValue,
+            };
+            save(settings);
+          }}
+          setValue={setSpeedItemValue}
+          items={items}
+          setOpen={setOpen}
+          setItems={setItems}
+          style={styles.dropdownStyle}
+          textStyle={{
+            color: "#007F97",
+            borderColor: "#007F97",
+          }}
+        />
+      </View>
     </View>
   );
 }
@@ -233,6 +239,6 @@ const styles = StyleSheet.create({
     marginRight: 30,
     marginTop: 5,
     marginBottom: 5,
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
 });

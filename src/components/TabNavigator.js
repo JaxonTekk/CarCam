@@ -8,7 +8,7 @@ import Ocitcons from "react-native-vector-icons/Octicons";
 import Home from "../screens/Home.js";
 import Record from "../screens/Record.js";
 import Settings from "../screens/Settings.js";
-import * as ScreenOrientation from "expo-screen-orientation"
+import * as ScreenOrientation from "expo-screen-orientation";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,14 +17,12 @@ export default function TabNaivgator() {
     <NavigationContainer>
       <Tab.Navigator
         initialRouteName="Home"
-        tabBarOptions={
-          {
-            activeBackgroundColor: "#4c3f77",
-            inactiveBackgroundColor: "#FFFFFF",
-            activeTintColor: "white",
-            inactiveTintColor: "#4c3f77",
-          }
-        }
+        tabBarOptions={{
+          activeBackgroundColor: "#FFFFFF",
+          inactiveBackgroundColor: "#FFFFFF",
+          activeTintColor: "#4c3f77",
+          inactiveTintColor: "#4c3f77",
+        }}
       >
         <Tab.Screen
           name="Home"
@@ -35,7 +33,13 @@ export default function TabNaivgator() {
               <Feather name="home" color={color} size={25} />
             ),
           }}
-          listeners={({ navigation }) => ({tabPress: (e) => { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP) }})}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              ScreenOrientation.lockAsync(
+                ScreenOrientation.OrientationLock.PORTRAIT_UP
+              );
+            },
+          })}
         />
         <Tab.Screen
           name="Record"
@@ -43,10 +47,20 @@ export default function TabNaivgator() {
           options={{
             tabBarLabel: "Record",
             tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="record-circle-outline" color={color} size={25} />
+              <MaterialCommunityIcons
+                name="record-circle-outline"
+                color={color}
+                size={25}
+              />
             ),
           }}
-          listeners={({ navigation }) => ({tabPress: (e) => { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE) }})}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              ScreenOrientation.lockAsync(
+                ScreenOrientation.OrientationLock.LANDSCAPE
+              );
+            },
+          })}
         />
         <Tab.Screen
           name="Settings"
@@ -57,7 +71,13 @@ export default function TabNaivgator() {
               <SimpleLineIcons name="settings" color={color} size={25} />
             ),
           }}
-          listeners={({ navigation }) => ({tabPress: (e) => { ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP) }})}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              ScreenOrientation.lockAsync(
+                ScreenOrientation.OrientationLock.PORTRAIT_UP
+              );
+            },
+          })}
         />
       </Tab.Navigator>
     </NavigationContainer>

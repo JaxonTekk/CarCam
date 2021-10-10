@@ -13,9 +13,10 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import * as MediaLibrary from "expo-media-library";
 import { Camera } from "expo-camera";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { format, parseISO } from "date-fns";
 
 export default function ViewVideo({ navigation }) {
-  const { uri, setUri, videos, setVideos, videoCount, setVideoCount } =
+  const { uri, setUri, videos, setVideos, videoCount, setVideoCount, d } =
     useContext(Context);
   const video = useRef(null);
   const [status, setStatus] = useState({});
@@ -33,7 +34,11 @@ export default function ViewVideo({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.mainFrame}>
-        <Text style={styles.videoDateText}>June 29, 2021 at 5:22 PM</Text>
+        <Text style={styles.videoDateText}>
+          {format(parseISO(d), "MMMM do, yyyy") +
+            " at " +
+            format(parseISO(d), "p")}
+        </Text>
         <Video
           ref={video}
           style={styles.video}

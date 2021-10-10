@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
   largeText: {
     fontSize: 100,
     color: "#051126",
-    textAlign: "center",
     fontFamily: "Nunito-Regular",
     shadowOpacity: 0,
     elevation: 0,
@@ -68,7 +67,6 @@ const styles = StyleSheet.create({
   smallText: {
     fontSize: 20,
     color: "#A4BCBC",
-    textAlign: "center",
     fontFamily: "Nunito-Light",
     shadowOpacity: 0,
     elevation: 0,

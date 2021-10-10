@@ -38,13 +38,12 @@ const Item = ({ onPress, date, thumbnail, size, duration }) => (
 );
 
 export default function ViewRecordings({ navigation }) {
-  const { setUri, videos, setVideos } = useContext(Context);
+  const { setUri, videos, setVideos, setD } = useContext(Context);
 
   const read = async () => {
     const data = await AsyncStorage.getItem("@videos");
     if (data) {
       setVideos(JSON.parse(data));
-      console.log(videos);
     }
   };
 
@@ -52,6 +51,7 @@ export default function ViewRecordings({ navigation }) {
     <Item
       onPress={() => {
         setUri(item.uri);
+        setD(item.date);
         navigation.navigate("View Video");
       }}
       date={item.date}

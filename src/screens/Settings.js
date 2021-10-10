@@ -13,15 +13,8 @@ export default function Settings() {
   const [memoryValue, setMemoryValue] = useState(15);
   const [maxRecordingTime, setMaxRecordingTime] = useState(15);
   const [saveVideoToPhotoGallery, setSaveVideoToPhotoGallery] = useState(false);
-  const [speedItemValue, setSpeedItemValue] = useState("MPH");
-
-  // DropDown Storage Values
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    { label: "MPH", value: "mph" },
-    { label: "KMH", value: "kmh" },
-  ]);
+  const [mphValue, setmphValue] = useState(true);
+  const [textmphValue, setTextmphValue] = useState("mph");
 
   const read = async () => {
     const settings = await AsyncStorage.getItem("@settings");
@@ -30,7 +23,13 @@ export default function Settings() {
       setMemoryValue(parsedSettings.memoryValue);
       setMaxRecordingTime(parsedSettings.maxRecordingTime);
       setSaveVideoToPhotoGallery(parsedSettings.saveVideoToPhotoGallery);
-      setSpeedItemValue(parsedSettings.value);
+      if( parsedSettings.value == "mph" ) {
+        setmphValue(true);
+        setTextmphValue("mph");
+      } else {
+        setmphValue(false);
+        setTextmphValue("kmh");
+      }
     }
   };
 
@@ -47,9 +46,27 @@ export default function Settings() {
       memoryValue: memoryValue,
       maxRecordingTime: maxRecordingTime,
       saveVideoToPhotoGallery: !saveVideoToPhotoGallery,
-      value: value,
+      value: textmphValue,
     };
     setSaveVideoToPhotoGallery(!saveVideoToPhotoGallery);
+    save(settings);
+  };
+
+  const toggleEnableMPH = () => {
+    const initialValue = mphValue;
+    if( initialValue == true ) {
+      setmphValue(false);
+      setTextmphValue("kmh");
+    } else {
+      setmphValue(true);
+      setTextmphValue("mph");
+    }
+    const settings = {
+      memoryValue: memoryValue,
+      maxRecordingTime: maxRecordingTime,
+      saveVideoToPhotoGallery: saveVideoToPhotoGallery,
+      value: textmphValue,
+    };
     save(settings);
   };
 
@@ -125,7 +142,7 @@ export default function Settings() {
               memoryValue: memoryValue,
               maxRecordingTime: maxRecordingTime,
               saveVideoToPhotoGallery: saveVideoToPhotoGallery,
-              value: value,
+              value: textmphValue,
             };
             save(settings);
           }}
@@ -144,29 +161,15 @@ export default function Settings() {
           onValueChange={toggleSaveVideoToPhotoGallery}
         />
       </View>
-      <View style={styles.selectionContainer}>
-        <Text style={styles.selectionContainerText}>Speed Meter Unit</Text>
-        <DropDownPicker
-          open={open}
-          value={speedItemValue}
-          onChangeValue={() => {
-            const settings = {
-              memoryValue: memoryValue,
-              maxRecordingTime: maxRecordingTime,
-              saveVideoToPhotoGallery: saveVideoToPhotoGallery,
-              value: speedItemValue,
-            };
-            save(settings);
-          }}
-          setValue={setSpeedItemValue}
-          items={items}
-          setOpen={setOpen}
-          setItems={setItems}
-          style={styles.dropdownStyle}
-          textStyle={{
-            color: "#007F97",
-            borderColor: "#007F97",
-          }}
+      <View style={styles.selectionContainerRow}>
+        <Text style={styles.selectionContainerText}>
+          Enable Miles Per Hour (mph)
+        </Text>
+        <Switch
+          value={mphValue}
+          style={styles.switch}
+          color="#007F97"
+          onValueChange={toggleEnableMPH}
         />
       </View>
     </View>

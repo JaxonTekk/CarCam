@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Text,
   View,
@@ -16,7 +16,13 @@ import Context from "../utils/Context.js";
 const Item = ({ onPress, date, thumbnail, size, duration }) => (
   <TouchableOpacity style={styles.item} onPress={onPress}>
     <Image
-      style={{ height: 100, width: 150, borderRadius: 7 }}
+      style={{
+        height: 100,
+        width: 150,
+        borderRadius: 7,
+        marginLeft: 5,
+        marginVertical: 5,
+      }}
       source={{
         uri: thumbnail,
       }}
@@ -36,7 +42,10 @@ export default function ViewRecordings({ navigation }) {
 
   const read = async () => {
     const data = await AsyncStorage.getItem("@videos");
-    if (data) setVideos(JSON.parse(data));
+    if (data) {
+      setVideos(JSON.parse(data));
+      console.log(videos);
+    }
   };
 
   const renderItem = ({ item }) => (
@@ -90,7 +99,6 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: "row",
     backgroundColor: "#E5E5E5",
-    marginHorizontal: 15,
     padding: 5,
     marginBottom: 10,
   },

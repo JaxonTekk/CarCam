@@ -3,8 +3,6 @@ import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import * as FileSystem from "expo-file-system";
 import Context from "../utils/Context.js";
-import { memo } from "react/cjs/react.production.min";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Statistics() {
   const { videoCount } = useContext(Context);
@@ -25,12 +23,12 @@ export default function Statistics() {
       setMemoryValue(
         Math.floor(((availableStorage - usedStorage) / availableStorage) * 100)
       );
-      });
+    });
   };
 
   useEffect(() => {
     read();
-    setScreenWidth(Dimensions.get("window").width)
+    setScreenWidth(Dimensions.get("window").width);
   }, [memoryValue, usedStorage, availableStorage]);
 
   return (
@@ -66,6 +64,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0,
     elevation: 0,
   },
+
   smallText: {
     fontSize: 20,
     color: "#A4BCBC",
@@ -74,6 +73,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0,
     elevation: 0,
   },
+
   progressBar: {
     shadowColor: "#999999",
     shadowOffset: {

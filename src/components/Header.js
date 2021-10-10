@@ -1,6 +1,5 @@
 import React from "react";
-import { useState } from "react";
-import { StyleSheet, View, Text, Dimensions } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import Constants from "expo-constants";
 
 export default function Header() {

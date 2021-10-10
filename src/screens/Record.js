@@ -4,7 +4,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Platform,
   Dimensions,
   Alert,
 } from "react-native";
@@ -17,7 +16,7 @@ import * as VideoThumbnails from "expo-video-thumbnails";
 import { Stopwatch, Timer } from "react-native-stopwatch-timer";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
-import useState from 'react-usestateref';
+import useState from "react-usestateref";
 
 export default function Record() {
   const { videoCount, setVideoCount } = useContext(Context);
@@ -50,11 +49,11 @@ export default function Record() {
 
   // https://stackoverflow.com/questions/9640266/convert-hhmmss-string-to-seconds-only-in-javascript
   function convertTimeToS(timeValue) {
-    var a = timeValue.split(':'); // split it at the colons
+    var a = timeValue.split(":"); // split it at the colons
 
     // minutes are worth 60 seconds. Hours are worth 60 minutes.
-    var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]); 
-    return seconds
+    var seconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
+    return seconds;
   }
 
   const read = async () => {
@@ -70,10 +69,9 @@ export default function Record() {
   const save = async (video, thumbnail, size, duration) => {
     await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount + 1));
     setVideoCount(videoCount + 1);
-    const videos = await AsyncStorage.getItem("@videos").then(() => {
-      toggleStopWatch();
-      resetStopWatch();
-    })
+    const videos = await AsyncStorage.getItem("@videos");
+    toggleStopWatch();
+    resetStopWatch();
     if (videos) {
       const parsedVideos = JSON.parse(videos);
       await AsyncStorage.setItem(
@@ -111,10 +109,9 @@ export default function Record() {
     setInterval(() => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          if( settingSpeed == "mph" ) {
+          if (settingSpeed == "mph") {
             setSpeed(Math.round(position.coords.speed * 2.236936));
-          }
-          else { 
+          } else {
             setSpeed(Math.round(position.coords.speed * 3.6));
           }
         },
@@ -126,7 +123,6 @@ export default function Record() {
   }, []);
 
   useEffect(() => {
-
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
       setHasPermission(status === "granted");
@@ -170,12 +166,12 @@ export default function Record() {
                 const { uri } = await VideoThumbnails.getThumbnailAsync(
                   video.uri,
                   {
-                    time: convertTimeToS(stopwatchTime)/2,
+                    time: convertTimeToS(stopwatchTime) / 2,
                   }
                 );
-                const { size } = await FileSystem.getInfoAsync(video.uri)
-                if( saveVideoToPhotoGallery ) {
-                  await MediaLibrary.saveToLibraryAsync(video.uri)
+                const { size } = await FileSystem.getInfoAsync(video.uri);
+                if (saveVideoToPhotoGallery) {
+                  await MediaLibrary.saveToLibraryAsync(video.uri);
                 }
                 save(video, uri, size, stopwatchTime);
               } else {
@@ -206,15 +202,20 @@ export default function Record() {
               getTime={(time) => {
                 setTimeout(() => {
                   setStopwatchTimer(time);
-                }, 0)
+                }, 0);
               }}
               getMsecs={(time) => {
-                if( time > maxRecordingTime * 60000 ) {
+                if (time > maxRecordingTime * 60000) {
                   setRecording(false);
                   toggleStopWatch();
                   resetStopWatch();
                   camera.stopRecording();
-                  Alert.alert("Warning", "This recording has stopped because it has reached the maximum Time Per Video value. To change this value, please go to the settings page.\n\nYou have set a maximum of " + maxRecordingTime + " min per video.");
+                  Alert.alert(
+                    "Warning",
+                    "This recording has stopped because it has reached the maximum Time Per Video value. To change this value, please go to the settings page.\n\nYou have set a maximum of " +
+                      maxRecordingTime +
+                      " min per video."
+                  );
                 }
               }}
             />
@@ -243,46 +244,56 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+
   camera: {
     flex: 1,
   },
+
   bottomContainer: {
     backgroundColor: "transparent",
     flexDirection: "row",
     margin: 20,
     marginTop: "auto",
   },
+
   topContainer: {
     backgroundColor: "transparent",
     flexDirection: "row",
     margin: 20,
   },
+
   button: {
     flex: 0.1,
     alignSelf: "flex-end",
     alignItems: "center",
   },
+
   text: {
     fontSize: 18,
     color: "white",
   },
+
   cameraIcon: {
     color: "black",
     margin: 8,
   },
+
   cameraIcon1: {
     color: "#F86A6A",
     margin: 8,
   },
+
   recordIcon: {
     color: "#F86A6A",
     margin: 8,
   },
+
   buttonBackground: {
     borderRadius: 10000000,
     backgroundColor: "white",
     opacity: 0.75,
   },
+
   timerContainer: {
     backgroundColor: "white",
     opacity: 0.75,
@@ -290,14 +301,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginLeft: "auto",
   },
+
   timerText: {
     fontSize: Dimensions.get("window").width / 30,
     margin: 6,
     fontFamily: "Nunito-Bold",
   },
+
   speedContainer: {
     flexDirection: "row",
   },
+
   speedText: {
     fontSize: Dimensions.get("window").width / 11,
     fontFamily: "Nunito-Bold",
@@ -306,6 +320,7 @@ const styles = StyleSheet.create({
     marginTop:
       Dimensions.get("window").width / 11 - Dimensions.get("window").width / 13,
   },
+
   mphText: {
     fontSize: Dimensions.get("window").width / 13,
     fontFamily: "Nunito-Bold",
@@ -318,6 +333,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 15,
   },
+
   recordingTimeText: {
     paddingTop: 10,
     paddingLeft: 10,
@@ -326,6 +342,7 @@ const styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     marginLeft: "auto",
   },
+
   recordingDateText: {
     paddingTop: 1,
     paddingLeft: 10,
@@ -335,6 +352,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
     marginLeft: "auto",
   },
+
   timerDateContainer: {
     backgroundColor: "white",
     opacity: 0.75,
@@ -351,6 +369,7 @@ const timerOptions = {
     backgroundColor: "white",
     borderRadius: 10,
   },
+
   text: {
     fontFamily: "Nunito-Bold",
     fontSize: Dimensions.get("window").width / 30,

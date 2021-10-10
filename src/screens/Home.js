@@ -13,7 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function HomeScreen({ navigation }) {
   return (
-    <View style={{ backgroundColor: "#F8F8F8" }}>
+    <View>
       <Header />
       <Statistics />
       <Features navigation={navigation} />
@@ -62,8 +62,8 @@ export default function Home() {
           },
         }}
       />
-      <Stack.Screen 
-        name="View Video" 
+      <Stack.Screen
+        name="View Video"
         component={ViewVideo}
         options={{
           title: " ",
@@ -91,7 +91,8 @@ export default function Home() {
             fontSize: 30,
             marginLeft: 10,
           },
-        }} />
+        }}
+      />
     </Stack.Navigator>
   );
 }

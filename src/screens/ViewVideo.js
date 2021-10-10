@@ -1,7 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import {
   View,
-  Button,
   StyleSheet,
   Dimensions,
   Text,
@@ -11,7 +10,6 @@ import {
 import { Video, AVPlaybackStatus } from "expo-av";
 import Context from "../utils/Context.js";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import * as MediaLibrary from "expo-media-library";
 import { Camera } from "expo-camera";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -88,6 +86,7 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "space-between",
   },
+
   video: {
     height: Dimensions.get("window").height / 2.6,
     width: Dimensions.get("window").width - 40,
@@ -95,6 +94,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
   },
+
   mainFrame: {
     flexDirection: "column",
   },

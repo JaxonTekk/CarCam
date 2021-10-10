@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Text, StyleSheet, Dimensions, View, Alert } from "react-native";
 import { Switch, Button } from "react-native-paper";
+import Context from "../utils/Context.js";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Slider from "@react-native-community/slider";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DropDownPicker from "react-native-dropdown-picker";
-import { parse } from "react-native-svg";
 
 export default function Settings() {
+  const { setVideoCount } = useContext(Context);
   const [memoryValue, setMemoryValue] = useState(15);
   const [maxRecordingTime, setMaxRecordingTime] = useState(15);
   const [saveVideoToPhotoGallery, setSaveVideoToPhotoGallery] = useState(false);
@@ -75,12 +76,15 @@ export default function Settings() {
                 {
                   text: "Yes",
                   onPress: () => {
-                    AsyncStorage.clear().then(() =>
+                    AsyncStorage.clear().then(() => {
+                      setMaxRecordingTime(15);
+                      setSaveVideoToPhotoGallery(false);
+                      setVideoCount(0);
                       Alert.alert(
                         "Success",
                         "Successfully deleted all data within this app!"
-                      )
-                    );
+                      );
+                    });
                   },
                 },
                 {
@@ -171,6 +175,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+
   rectangle: {
     backgroundColor: "white",
     flexDirection: "column",
@@ -186,6 +191,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+
   largeText: {
     marginTop: Dimensions.get("window").height / 19,
     marginBottom: 10,
@@ -193,15 +199,18 @@ const styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     textAlign: "center",
   },
+
   memory: {
     marginTop: 20,
     textAlign: "center",
   },
+
   categoryTitle: {
     textAlign: "center",
     fontSize: 25,
     fontFamily: "Nunito-Regular",
   },
+
   selectionContainer: {
     backgroundColor: "#E5E5E5",
     marginLeft: 20,
@@ -209,6 +218,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginTop: 10,
   },
+
   selectionContainerRow: {
     backgroundColor: "#E5E5E5",
     marginLeft: 20,
@@ -217,6 +227,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     justifyContent: "space-between",
   },
+
   selectionContainerText: {
     fontFamily: "Nunito-Regular",
     fontSize: 18,
@@ -224,16 +235,19 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
+
   switch: {
     marginTop: 8,
     marginRight: 10,
   },
+
   dropdownStyle: {
     width: Dimensions.get("window").width / 1.2,
     marginLeft: 10,
     marginBottom: 10,
     borderColor: "#007F97",
   },
+
   settingsButton: {
     marginLeft: 10,
     marginRight: 30,

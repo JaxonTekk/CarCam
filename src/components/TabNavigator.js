@@ -4,7 +4,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Feather from "react-native-vector-icons/Feather";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
-import Ocitcons from "react-native-vector-icons/Octicons";
 import Home from "../screens/Home.js";
 import Record from "../screens/Record.js";
 import Settings from "../screens/Settings.js";

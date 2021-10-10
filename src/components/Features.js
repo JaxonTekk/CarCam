@@ -37,18 +37,21 @@ const styles = StyleSheet.create({
     elevation: 10,
     marginBottom: 10,
   },
+
   icons: {
     marginLeft: 20,
     marginTop: 20,
     marginBottom: 20,
     color: "#DF4F97",
   },
+
   largeText: {
     marginTop: 15,
     fontFamily: "Nunito-Bold",
     fontSize: 20,
     marginLeft: 20,
   },
+
   smallText: {
     marginLeft: 20,
     fontFamily: "Nunito-Regular",

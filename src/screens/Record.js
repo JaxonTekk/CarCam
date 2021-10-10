@@ -31,6 +31,7 @@ export default function Record() {
   const [settingSpeed, setSettingSpeed] = useState("mph");
   const [maxRecordingTime, setMaxRecordingTime] = useState(15);
   const [saveVideoToPhotoGallery, setSaveVideoToPhotoGallery] = useState(false);
+  const [showSpeed, setShowSpeed] = useState(0);
 
   //timer
   const [stopwatchStart, setStopwatchStart] = useState(false);
@@ -160,6 +161,7 @@ export default function Record() {
           <TouchableOpacity
             onPress={async () => {
               if (!recording) {
+                setShowSpeed(100);
                 setRecording(true);
                 toggleStopWatch();
                 const video = await camera.recordAsync();
@@ -175,6 +177,7 @@ export default function Record() {
                 }
                 save(video, uri, size, stopwatchTime);
               } else {
+                setShowSpeed(0);
                 setRecording(false);
                 camera.stopRecording();
               }
@@ -222,8 +225,8 @@ export default function Record() {
           </View>
         </View>
         <View style={styles.bottomContainer}>
-          <View style={styles.speedContainer}>
-            <Text style={styles.speedText}>{speed}</Text>
+          <View style={{flexDirection: "row", opacity: showSpeed}}>
+            <Text style={styles.speedText}>{Math.abs(speed)}</Text>
             <Text style={styles.mphText}> {settingSpeed}</Text>
           </View>
           <View style={styles.timerDateContainer}>

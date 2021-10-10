@@ -9,7 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import DropDownPicker from "react-native-dropdown-picker";
 
 export default function Settings() {
-  const { setVideoCount } = useContext(Context);
+  const { setVideoCount, setUri, setD, setVideos } = useContext(Context);
   const [memoryValue, setMemoryValue] = useState(15);
   const [maxRecordingTime, setMaxRecordingTime] = useState(15);
   const [saveVideoToPhotoGallery, setSaveVideoToPhotoGallery] = useState(false);
@@ -80,6 +80,9 @@ export default function Settings() {
                       setMaxRecordingTime(15);
                       setSaveVideoToPhotoGallery(false);
                       setVideoCount(0);
+                      setUri(undefined);
+                      setD(undefined);
+                      setVideos(undefined);
                       Alert.alert(
                         "Success",
                         "Successfully deleted all data within this app!"

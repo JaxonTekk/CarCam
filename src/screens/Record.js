@@ -13,10 +13,11 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import * as Location from "expo-location";
 import Context from "../utils/Context.js";
 import * as VideoThumbnails from "expo-video-thumbnails";
-import { Stopwatch, Timer } from "react-native-stopwatch-timer";
+import { Stopwatch } from "react-native-stopwatch-timer";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
 import useState from "react-usestateref";
+import { saveVideo } from "../functions/Data.js";
 
 export default function Record() {
   const { videoCount, setVideoCount } = useContext(Context);
@@ -65,43 +66,6 @@ export default function Record() {
       else setSettingSpeed("kmh");
       setMaxRecordingTime(parsedSettings.maxRecordingTime);
       setSaveVideoToPhotoGallery(parsedSettings.saveVideoToPhotoGallery);
-    }
-  };
-
-  const save = async (video, thumbnail, size, duration) => {
-    await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount + 1));
-    setVideoCount(videoCount + 1);
-    const videos = await AsyncStorage.getItem("@videos");
-    toggleStopWatch();
-    resetStopWatch();
-    if (videos) {
-      const parsedVideos = JSON.parse(videos);
-      await AsyncStorage.setItem(
-        "@videos",
-        JSON.stringify([
-          ...parsedVideos,
-          {
-            date: new Date(),
-            uri: video.uri,
-            thumbnail: thumbnail,
-            size: size,
-            duration: counterRef.current,
-          },
-        ])
-      );
-    } else {
-      await AsyncStorage.setItem(
-        "@videos",
-        JSON.stringify([
-          {
-            date: new Date(),
-            uri: video.uri,
-            thumbnail: thumbnail,
-            size: size,
-            duration: counterRef.current,
-          },
-        ])
-      );
     }
   };
 
@@ -176,7 +140,16 @@ export default function Record() {
                 if (saveVideoToPhotoGallery) {
                   await MediaLibrary.saveToLibraryAsync(video.uri);
                 }
-                save(video, uri, size, stopwatchTime);
+                saveVideo(
+                  videoCount,
+                  setVideoCount,
+                  toggleStopWatch,
+                  resetStopWatch,
+                  video,
+                  uri,
+                  size,
+                  counterRef
+                );
               } else {
                 setShowSpeed(0);
                 setRecording(false);

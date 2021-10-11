@@ -78,3 +78,49 @@ export const deleteVideo = async (
   await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount - 1));
   navigation.navigate("View Recordings");
 };
+
+export const saveVideo = async (
+  videoCount,
+  setVideoCount,
+  toggleStopWatch,
+  resetStopWatch,
+  video,
+  thumbnail,
+  size,
+  counterRef
+) => {
+  await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount + 1));
+  setVideoCount(videoCount + 1);
+  const videos = await AsyncStorage.getItem("@videos");
+  toggleStopWatch();
+  resetStopWatch();
+  if (videos) {
+    const parsedVideos = JSON.parse(videos);
+    await AsyncStorage.setItem(
+      "@videos",
+      JSON.stringify([
+        ...parsedVideos,
+        {
+          date: new Date(),
+          uri: video.uri,
+          thumbnail: thumbnail,
+          size: size,
+          duration: counterRef.current,
+        },
+      ])
+    );
+  } else {
+    await AsyncStorage.setItem(
+      "@videos",
+      JSON.stringify([
+        {
+          date: new Date(),
+          uri: video.uri,
+          thumbnail: thumbnail,
+          size: size,
+          duration: counterRef.current,
+        },
+      ])
+    );
+  }
+};

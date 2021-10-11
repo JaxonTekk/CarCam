@@ -133,7 +133,7 @@ export default function Record() {
                 const { uri } = await VideoThumbnails.getThumbnailAsync(
                   video.uri,
                   {
-                    time: convertTimeToS(stopwatchTime) / 2,
+                    time: convertTimeToS(counterRef.current) / 2,
                   }
                 );
                 const { size } = await FileSystem.getInfoAsync(video.uri);

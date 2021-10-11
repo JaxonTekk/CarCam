@@ -10,8 +10,8 @@ export default function Render() {
   const [loaded, setLoaded] = useState(false);
   const [videoCount, setVideoCount] = useState(0);
   const [uri, setUri] = useState(undefined);
-  const [d, setD] = useState(undefined);
   const [videos, setVideos] = useState(undefined);
+  const [d, setD] = useState(undefined);
 
   const read = async () => {
     const videoCount = await AsyncStorage.getItem("@videoCount");

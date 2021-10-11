@@ -7,11 +7,8 @@ import Context from "../utils/Context.js";
 export default function Statistics() {
   const { videoCount } = useContext(Context);
   const [memoryValue, setMemoryValue] = useState(75);
-  const [videos, setVideos] = useState(0);
-
   const [usedStorage, setUsedStorage] = useState(0);
   const [availableStorage, setAvailableStorage] = useState(0);
-
   const [screenWidth, setScreenWidth] = useState(0);
 
   const read = async () => {

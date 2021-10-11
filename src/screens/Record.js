@@ -61,7 +61,8 @@ export default function Record() {
     const settings = await AsyncStorage.getItem("@settings");
     if (settings) {
       const parsedSettings = JSON.parse(settings);
-      setSettingSpeed(parsedSettings.value);
+      if (parsedSettings.mph) setSettingSpeed("mph");
+      else setSettingSpeed("kmh");
       setMaxRecordingTime(parsedSettings.maxRecordingTime);
       setSaveVideoToPhotoGallery(parsedSettings.saveVideoToPhotoGallery);
     }
@@ -110,7 +111,7 @@ export default function Record() {
     setInterval(() => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          if (settingSpeed == "mph") {
+          if (settingSpeed === "mph") {
             setSpeed(Math.round(position.coords.speed * 2.236936));
           } else {
             setSpeed(Math.round(position.coords.speed * 3.6));
@@ -225,7 +226,7 @@ export default function Record() {
           </View>
         </View>
         <View style={styles.bottomContainer}>
-          <View style={{flexDirection: "row", opacity: showSpeed}}>
+          <View style={{ flexDirection: "row", opacity: showSpeed }}>
             <Text style={styles.speedText}>{Math.abs(speed)}</Text>
             <Text style={styles.mphText}> {settingSpeed}</Text>
           </View>

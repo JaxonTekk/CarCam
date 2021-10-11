@@ -6,15 +6,13 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Slider from "@react-native-community/slider";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import DropDownPicker from "react-native-dropdown-picker";
 
 export default function Settings() {
   const { setVideoCount, setUri, setD, setVideos } = useContext(Context);
   const [memoryValue, setMemoryValue] = useState(15);
   const [maxRecordingTime, setMaxRecordingTime] = useState(15);
   const [saveVideoToPhotoGallery, setSaveVideoToPhotoGallery] = useState(false);
-  const [mphValue, setmphValue] = useState(true);
-  const [textmphValue, setTextmphValue] = useState("mph");
+  const [mph, setMph] = useState(true);
 
   const read = async () => {
     const settings = await AsyncStorage.getItem("@settings");
@@ -23,13 +21,7 @@ export default function Settings() {
       setMemoryValue(parsedSettings.memoryValue);
       setMaxRecordingTime(parsedSettings.maxRecordingTime);
       setSaveVideoToPhotoGallery(parsedSettings.saveVideoToPhotoGallery);
-      if( parsedSettings.value == "mph" ) {
-        setmphValue(true);
-        setTextmphValue("mph");
-      } else {
-        setmphValue(false);
-        setTextmphValue("kmh");
-      }
+      setMph(parsedSettings.mph);
     }
   };
 
@@ -46,27 +38,20 @@ export default function Settings() {
       memoryValue: memoryValue,
       maxRecordingTime: maxRecordingTime,
       saveVideoToPhotoGallery: !saveVideoToPhotoGallery,
-      value: textmphValue,
+      mph: mph,
     };
     setSaveVideoToPhotoGallery(!saveVideoToPhotoGallery);
     save(settings);
   };
 
   const toggleEnableMPH = () => {
-    const initialValue = mphValue;
-    if( initialValue == true ) {
-      setmphValue(false);
-      setTextmphValue("kmh");
-    } else {
-      setmphValue(true);
-      setTextmphValue("mph");
-    }
     const settings = {
       memoryValue: memoryValue,
       maxRecordingTime: maxRecordingTime,
       saveVideoToPhotoGallery: saveVideoToPhotoGallery,
-      value: textmphValue,
+      mph: !mph,
     };
+    setMph(!mph);
     save(settings);
   };
 
@@ -142,7 +127,7 @@ export default function Settings() {
               memoryValue: memoryValue,
               maxRecordingTime: maxRecordingTime,
               saveVideoToPhotoGallery: saveVideoToPhotoGallery,
-              value: textmphValue,
+              mph: mph,
             };
             save(settings);
           }}
@@ -161,16 +146,31 @@ export default function Settings() {
           onValueChange={toggleSaveVideoToPhotoGallery}
         />
       </View>
-      <View style={styles.selectionContainerRow}>
-        <Text style={styles.selectionContainerText}>
-          Enable Miles Per Hour (mph)
-        </Text>
-        <Switch
-          value={mphValue}
-          style={styles.switch}
-          color="#007F97"
-          onValueChange={toggleEnableMPH}
-        />
+      <View
+        style={{ ...styles.selectionContainerRow, flexDirection: "column" }}
+      >
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Text style={styles.selectionContainerText}>
+            Miles Per Hour (mph)
+          </Text>
+          <Switch
+            value={mph}
+            style={styles.switch}
+            color="#007F97"
+            onValueChange={toggleEnableMPH}
+          />
+        </View>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Text style={styles.selectionContainerText}>
+            Kilometers Per Hour (kmh)
+          </Text>
+          <Switch
+            value={!mph}
+            style={styles.switch}
+            color="#007F97"
+            onValueChange={toggleEnableMPH}
+          />
+        </View>
       </View>
     </View>
   );
@@ -260,5 +260,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 5,
     backgroundColor: "white",
+  },
+
+  option: {
+    fontFamily: "Nunito-Regular",
+    fontSize: 16,
+    marginLeft: 13,
+    marginBottom: 10,
   },
 });

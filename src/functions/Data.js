@@ -60,3 +60,21 @@ export const readVideoCount = async (setVideoCount) => {
   const videoCount = await AsyncStorage.getItem("@videoCount");
   if (videoCount) setVideoCount(JSON.parse(videoCount));
 };
+
+export const deleteVideo = async (
+  videos,
+  setVideos,
+  videoCount,
+  setVideoCount,
+  uri,
+  setUri,
+  navigation
+) => {
+  const cpy = videos.filter((v) => v.uri !== uri);
+  setVideos(cpy);
+  setVideoCount(videoCount - 1);
+  setUri(undefined);
+  await AsyncStorage.setItem("@videos", JSON.stringify(cpy));
+  await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount - 1));
+  navigation.navigate("View Recordings");
+};

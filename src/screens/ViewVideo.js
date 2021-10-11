@@ -7,29 +7,18 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import { Video, AVPlaybackStatus } from "expo-av";
+import { Video } from "expo-av";
 import Context from "../utils/Context.js";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import * as MediaLibrary from "expo-media-library";
-import { Camera } from "expo-camera";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { format, parseISO } from "date-fns";
+import { deleteVideo } from "../functions/Data.js";
 
 export default function ViewVideo({ navigation }) {
   const { uri, setUri, videos, setVideos, videoCount, setVideoCount, d } =
     useContext(Context);
   const video = useRef(null);
   const [status, setStatus] = useState({});
-
-  const del = async () => {
-    const cpy = videos.filter((v) => v.uri !== uri);
-    setVideos(cpy);
-    setVideoCount(videoCount - 1);
-    setUri(undefined);
-    await AsyncStorage.setItem("@videos", JSON.stringify(cpy));
-    await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount - 1));
-    navigation.navigate("View Recordings");
-  };
 
   return (
     <View style={styles.container}>
@@ -48,7 +37,7 @@ export default function ViewVideo({ navigation }) {
           useNativeControls
           resizeMode="contain"
           isLooping
-          onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+          onPlaybackStatusUpdate={(status) => setStatus(status)}
         />
       </View>
       <View style={styles.bottomFrame}>
@@ -75,7 +64,20 @@ export default function ViewVideo({ navigation }) {
             <FontAwesome5 name="download" size={30} style={styles.icons} />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonBackground} onPress={del}>
+        <TouchableOpacity
+          style={styles.buttonBackground}
+          onPress={() =>
+            deleteVideo(
+              videos,
+              setVideos,
+              videoCount,
+              setVideoCount,
+              uri,
+              setUri,
+              navigation
+            )
+          }
+        >
           <View style={styles.buttonBackground1}>
             <FontAwesome5 name="trash" size={30} style={styles.icons} />
           </View>

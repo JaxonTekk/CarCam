@@ -126,6 +126,7 @@ export default function Record() {
           <TouchableOpacity
             onPress={async () => {
               if (!recording) {
+                const startTime = new Date();
                 setShowSpeed(100);
                 setRecording(true);
                 toggleStopWatch();
@@ -148,7 +149,8 @@ export default function Record() {
                   video,
                   uri,
                   size,
-                  counterRef
+                  counterRef,
+                  startTime
                 );
               } else {
                 setShowSpeed(0);

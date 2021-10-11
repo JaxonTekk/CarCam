@@ -87,7 +87,8 @@ export const saveVideo = async (
   video,
   thumbnail,
   size,
-  counterRef
+  counterRef,
+  startTime
 ) => {
   await AsyncStorage.setItem("@videoCount", JSON.stringify(videoCount + 1));
   setVideoCount(videoCount + 1);
@@ -101,7 +102,7 @@ export const saveVideo = async (
       JSON.stringify([
         ...parsedVideos,
         {
-          date: new Date(),
+          date: startTime,
           uri: video.uri,
           thumbnail: thumbnail,
           size: size,
@@ -114,7 +115,7 @@ export const saveVideo = async (
       "@videos",
       JSON.stringify([
         {
-          date: new Date(),
+          date: startTime,
           uri: video.uri,
           thumbnail: thumbnail,
           size: size,

@@ -43,7 +43,13 @@ export default function ViewRecordings({ navigation }) {
   const read = async () => {
     const data = await AsyncStorage.getItem("@videos");
     if (data) {
-      setVideos(JSON.parse(data));
+      let parsedData = JSON.parse(data);
+      parsedData.sort(function (a, b) {
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(b.date) - new Date(a.date);
+      });
+      setVideos(parsedData);
     }
   };
 

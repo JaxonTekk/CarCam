@@ -1,15 +1,11 @@
 import React from "react";
-import { View, Dimensions, Button } from "react-native";
-import {
-  createStackNavigator,
-  HeaderBackButton,
-} from "@react-navigation/stack";
+import { View, Dimensions } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
 import Header from "../components/Header";
 import Statistics from "../components/Statistics";
 import Features from "../components/Features";
 import ViewRecordings from "./ViewRecordings";
 import ViewVideo from "./ViewVideo.js";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function HomeScreen({ navigation }) {
   return (

@@ -5,7 +5,7 @@ import Context from "../utils/Context.js";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Slider from "@react-native-community/slider";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { clear, readSettings, saveSettings } from "../functions/Data.js";
 
 export default function Settings() {
   const { setVideoCount, setUri, setD, setVideos } = useContext(Context);
@@ -14,23 +14,13 @@ export default function Settings() {
   const [saveVideoToPhotoGallery, setSaveVideoToPhotoGallery] = useState(false);
   const [mph, setMph] = useState(true);
 
-  const read = async () => {
-    const settings = await AsyncStorage.getItem("@settings");
-    if (settings) {
-      const parsedSettings = JSON.parse(settings);
-      setMemoryValue(parsedSettings.memoryValue);
-      setMaxRecordingTime(parsedSettings.maxRecordingTime);
-      setSaveVideoToPhotoGallery(parsedSettings.saveVideoToPhotoGallery);
-      setMph(parsedSettings.mph);
-    }
-  };
-
-  const save = async (settings) => {
-    await AsyncStorage.setItem("@settings", JSON.stringify(settings));
-  };
-
   useEffect(() => {
-    read();
+    readSettings(
+      setMemoryValue,
+      setMaxRecordingTime,
+      setSaveVideoToPhotoGallery,
+      setMph
+    );
   }, []);
 
   const toggleSaveVideoToPhotoGallery = () => {
@@ -41,7 +31,7 @@ export default function Settings() {
       mph: mph,
     };
     setSaveVideoToPhotoGallery(!saveVideoToPhotoGallery);
-    save(settings);
+    saveSettings(settings);
   };
 
   const toggleEnableMPH = () => {
@@ -52,7 +42,7 @@ export default function Settings() {
       mph: !mph,
     };
     setMph(!mph);
-    save(settings);
+    saveSettings(settings);
   };
 
   return (
@@ -70,35 +60,15 @@ export default function Settings() {
           mode="contained"
           color="#DF4F97"
           style={styles.settingsButton}
-          onPress={async () => {
-            Alert.alert(
-              "Delete all Data",
-              "Are you sure that you want to delete ALL data within this app? This action CANNOT be undone.",
-              [
-                {
-                  text: "Yes",
-                  onPress: () => {
-                    AsyncStorage.clear().then(() => {
-                      setMaxRecordingTime(15);
-                      setSaveVideoToPhotoGallery(false);
-                      setVideoCount(0);
-                      setUri(undefined);
-                      setD(undefined);
-                      setVideos(undefined);
-                      Alert.alert(
-                        "Success",
-                        "Successfully deleted all data within this app!"
-                      );
-                    });
-                  },
-                },
-                {
-                  text: "Cancel",
-                  style: "cancel",
-                },
-              ]
-            );
-          }}
+          onPress={() =>
+            clear(
+              setMaxRecordingTime,
+              setSaveVideoToPhotoGallery,
+              setVideoCount,
+              setVideos,
+              setMph
+            )
+          }
         >
           Delete All Data
         </Button>
@@ -129,7 +99,7 @@ export default function Settings() {
               saveVideoToPhotoGallery: saveVideoToPhotoGallery,
               mph: mph,
             };
-            save(settings);
+            saveSettings(settings);
           }}
           minimumTrackTintColor="#007F97"
         />

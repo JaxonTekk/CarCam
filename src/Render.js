@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { ActivityIndicator } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Font from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import Context from "./utils/Context.js";
 import TabNavigator from "./components/TabNavigator.js";
+import { readVideoCount } from "./functions/Data.js";
+import { loadFonts } from "./functions/LoadFonts.js";
 
 export default function Render() {
   const [loaded, setLoaded] = useState(false);
@@ -13,23 +13,9 @@ export default function Render() {
   const [videos, setVideos] = useState(undefined);
   const [d, setD] = useState(undefined);
 
-  const read = async () => {
-    const videoCount = await AsyncStorage.getItem("@videoCount");
-    if (videoCount) setVideoCount(JSON.parse(videoCount));
-  };
-
-  const loadFonts = async () => {
-    await Font.loadAsync({
-      "Nunito-Regular": require("../assets/fonts/Nunito/Nunito-Regular.ttf"),
-      "Nunito-Bold": require("../assets/fonts/Nunito/Nunito-Bold.ttf"),
-      "Nunito-Light": require("../assets/fonts/Nunito/Nunito-Light.ttf"),
-    });
-    setLoaded(true);
-  };
-
   useEffect(() => {
-    read();
-    loadFonts();
+    readVideoCount(setVideoCount);
+    loadFonts(setLoaded);
   }, []);
 
   if (!loaded) {

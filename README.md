@@ -17,7 +17,7 @@ https://www.youtube.com/watch?v=oFE0Inj-pr8
 
 ## Screenshots
 
-As a student interested in computer science, Michael Yi was a great choice to work on this iOS application. Initially, we wanted to use Swift to create this application, however due to the limitations of Swift, we decided to use react-native.
+A snapshot of our work.
 
 <img align="center" src="https://jaxontekk.com/uploads/2022/01/ss1.PNG">
 <img align="center" src="https://jaxontekk.com/uploads/2022/01/ss2.PNG">
